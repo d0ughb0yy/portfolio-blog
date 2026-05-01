@@ -1,0 +1,37 @@
+---
+title: "Blueprint - TryHackMe"
+description: "Exploiting an unauthenticated RCE in osCommerce 2.3.4 to gain Administrator access on a Windows 7 machine."
+pubDate: 2024-02-17
+ctfPlatform: TryHackMe
+difficulty: medium
+tags: ["Windows", "osCommerce", "RCE", "SMB", "IIS"]
+---
+
+## Overview
+
+A Windows 7 machine running an outdated osCommerce CMS on port 8080. The CMS was vulnerable to an unauthenticated RCE, which provided immediate Administrator access.
+
+## Port Scan
+
+Multiple ports revealed:
+- Port 80/443 - IIS web server returning 404
+- Port 445 - SMB
+- Port 3306 - MySQL
+- Port 8080 - Apache with osCommerce installation
+- Port 135, 139 - RPC and NetBIOS
+
+## Initial Access
+
+Enumeration of port 8080 revealed an osCommerce 2.3.4 installation. This version is vulnerable to an unauthenticated RCE through the `install.php` file via the `db_database` parameter.
+
+I found a working exploit on Exploit-DB and executed it against the target, receiving a shell as Administrator.
+
+## Post-Exploitation
+
+Since I had Administrator access, I dumped the SAM registry hives to extract NTLM hashes for offline analysis.
+
+## Key Takeaways
+
+- Always check all open ports - 8080 often runs vulnerable applications
+- Known exploits are well documented - always search Exploit-DB when you identify software versions
+- On Windows, Administrator doesn't require privilege escalation - you already own the box

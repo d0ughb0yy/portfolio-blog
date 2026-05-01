@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import PostCard from '../../components/PostCard.astro';
+
+const allPosts = await getCollection('ctf', ({ data }) => !data.draft);
+const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout title="CTF Writeups" description="CTF writeups and walkthroughs">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-text-primary mb-2">CTF Writeups</h1>
+    <p class="text-text-secondary">{posts.length} writeup{posts.length !== 1 ? 's' : ''}</p>
+  </div>
+
+  {posts.length === 0 ? (
+    <div class="text-center py-16">
+      <p class="text-text-muted">No posts</p>
+    </div>
+  ) : (
+    <div class="grid gap-6">
+      {posts.map((post) => (
+<PostCard
+          title={post.data.title}
+          description={post.data.description}
+          pubDate={post.data.pubDate}
+          url={`/ctf/${post.id}`}
+          platform={post.data.ctfPlatform}
+          difficulty={post.data.difficulty}
+          tags={post.data.tags}
+        />
+      ))}
+    </div>
+  )}
+</BaseLayout>

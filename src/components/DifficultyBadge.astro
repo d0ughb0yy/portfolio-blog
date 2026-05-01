@@ -1,0 +1,22 @@
+---
+interface Props {
+  difficulty: string;
+}
+
+const capitalize = (str: string) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
+const difficultyColors: Record<string, string> = {
+  easy: 'bg-green-500/20 text-green-400 border-green-500/30',
+  medium: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+  hard: 'bg-red-500/20 text-red-400 border-red-500/30',
+};
+
+const colorClass = difficultyColors[Astro.props.difficulty] || 'bg-gray-500/20 text-gray-400 border-gray-500/30';
+const capitalizedDifficulty = capitalize(Astro.props.difficulty);
+---
+
+<span class={`text-xs font-mono px-2 py-1 rounded border ${colorClass}`}>
+  {capitalizedDifficulty}
+</span>

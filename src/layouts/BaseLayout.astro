@@ -1,0 +1,65 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Security research blog - CTF writeups and bug bounty findings' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EWDHWHP1BC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-EWDHWHP1BC');
+</script>
+</head>
+  <body class="min-h-screen">
+    <header class="border-b border-border">
+      <nav class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+        <a href="/" class="font-mono text-lg font-semibold text-accent hover:text-primary transition-colors">
+          $_
+        </a>
+        <div class="flex gap-6 text-sm">
+          <a href="/ctf" class="text-text-secondary hover:text-accent transition-colors">CTF</a>
+          <a href="/bugbounty" class="text-text-secondary hover:text-accent transition-colors">Bug Bounty</a>
+          <a href="/blog" class="text-text-secondary hover:text-accent transition-colors">Blog</a>
+          <a href="/rss.xml" class="text-text-muted hover:text-accent transition-colors" title="RSS Feed">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M6.18 15.64a2.18 2.18 0 1 1 0 4.36 2.18 2.18 0 0 1 0-4.36m0-6.02a8.18 8.18 0 0 1 8.18 8.18c0 4.5-3.68 8.18-8.18 8.18s-8.18-3.68-8.18-8.18c0-4.5 3.68-8.18 8.18-8.18m0-6.02c-7.8 0-14.2 6.4-14.2 14.2 0 7.8 6.4 14.2 14.2 14.2 7.8 0 14.2-6.4 14.2-14.2 0-7.8-6.4-14.2-14.2-14.2"/>
+            </svg>
+          </a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-6 py-8">
+      <slot />
+    </main>
+
+    <footer class="border-t border-border mt-16">
+      <div class="max-w-4xl mx-auto px-6 py-6 text-center text-text-muted text-sm">
+        Built with <a href="https://astro.build" class="text-accent hover:underline">Astro</a>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  @import '../styles/global.css';
+</style>

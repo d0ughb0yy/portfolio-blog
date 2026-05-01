@@ -1,0 +1,21 @@
+---
+title: Reflected XSS in a corporate marketing site
+description: A reflected XSS vulnerability was found in a lang= URL parameter
+pubDate: 2025-02-5
+tags: ["XSS", "Reflected XSS"]
+---
+
+While casually browsing through a vulnerability disclosure program not long ago, I came across a classic reflected Cross-Site Scripting (XSS) issue.
+
+The vulnerability was in the site's search bar. Whatever you typed into the query got reflected right back onto the page without proper escaping.
+
+## How the exploit worked
+
+To test it, I simply closed the existing quote in the search parameter (using ") and injected a basic `<img>` tag with an onerror handler carrying my payload.
+
+To be more specific: \
+`"><img+src=x+onerror=alert(document.domain)>`
+
+After submitting the search, the malicious code reflected back and executed JavaScript in the browser.
+
+The real concern here was the presence of an admin panel on a separate endpoint. If an attacker tricked an logged-in administrator into visiting a crafted link (e.g., via phishing), they could steal the admin's session cookies through JavaScript and potentially take full control of the application.

@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply bg-background text-text-primary;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply antialiased;
+  }
+
+  ::selection {
+    @apply bg-accent/30 text-text-primary;
+  }
+
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-background;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-full hover:bg-text-muted;
+  }
+}
+
+@layer components {
+  .prose {
+    @apply text-text-secondary leading-relaxed;
+  }
+
+  .prose h1, .prose h2, .prose h3, .prose h4 {
+    @apply text-text-primary font-semibold mt-8 mb-4;
+  }
+
+  .prose h1 { @apply text-2xl; }
+  .prose h2 { @apply text-xl; }
+  .prose h3 { @apply text-lg; }
+
+  .prose p {
+    @apply mb-4;
+  }
+
+  .prose a {
+    @apply text-accent hover:underline;
+  }
+
+  .prose code:not(pre code) {
+    @apply bg-surface px-1.5 py-0.5 rounded text-sm font-mono text-accent;
+  }
+
+  .prose pre {
+    @apply bg-surface border border-border rounded-lg p-4 overflow-x-auto my-6;
+  }
+
+  .prose ul, .prose ol {
+    @apply mb-4 pl-6 text-text-secondary;
+  }
+
+  .prose ul { @apply list-disc; }
+  .prose ol { @apply list-decimal; }
+
+  .prose li {
+    @apply mb-2;
+  }
+
+  .prose blockquote {
+    @apply border-l-4 border-accent pl-4 italic text-text-muted my-6;
+  }
+
+  .prose img {
+    @apply rounded-lg my-6;
+  }
+
+  .prose hr {
+    @apply border-border my-8;
+  }
+
+  .prose table {
+    @apply w-full border-collapse my-6;
+  }
+
+  .prose th, .prose td {
+    @apply border border-border px-4 py-2 text-left;
+  }
+
+  .prose th {
+    @apply bg-surface font-semibold;
+  }
+}

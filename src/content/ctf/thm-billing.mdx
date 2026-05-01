@@ -1,0 +1,38 @@
+---
+title: "Billing - TryHackMe"
+description: "Exploiting CVE-2023-30258 in MagnusBilling to gain access, then leveraging fail2ban sudo permissions for privilege escalation."
+pubDate: 2024-02-16
+ctfPlatform: TryHackMe
+difficulty: medium
+tags: ["Linux", "CVE", "Asterisk", "Fail2ban", "sudo"]
+---
+
+## Overview
+
+A Linux machine running MagnusBilling, an open-source VoIP billing system. This box demonstrates how a known CVE can lead to initial access, and how sudo misconfigurations on monitoring tools can lead to root.
+
+## Port Scan
+
+Key services identified:
+- Port 22 - SSH
+- Port 80 - HTTP (MagnusBilling CMS)
+- Port 3306 - MySQL
+- Port 5038 - Asterisk Call Manager
+
+## Initial Access
+
+The MagnusBilling installation was vulnerable to CVE-2023-30258, which allows command injection through the icepay module. I captured the request using Burp Suite and injected a reverse shell payload. This gave me access as the `asterisk` user.
+
+## Privilege Escalation
+
+The `asterisk` user had sudo permissions to run `/usr/bin/fail2ban-client`. By examining the fail2ban-client help menu, I found an interesting technique:
+
+1. Update the actionban command to set the SUID bit on `/bin/bash`
+2. Ban any IP address to trigger the action
+3. Execute `/bin/bash -p` to get a root shell
+
+## Key Takeaways
+
+- Always check for known CVEs when you identify software versions
+- Monitoring tools like fail2ban can be dangerous when given sudo access without proper restrictions
+- Don't rely on metasploit - understanding the underlying exploit is more valuable

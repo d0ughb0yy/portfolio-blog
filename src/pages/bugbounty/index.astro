@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import PostCard from '../../components/PostCard.astro';
+
+const allPosts = await getCollection('bugbounty', ({ data }) => !data.draft);
+const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout title="Bug Bounty Findings" description="Bug bounty findings and vulnerability research">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-text-primary mb-2">Bug Bounty Findings</h1>
+    <p class="text-text-secondary">{posts.length} finding{posts.length !== 1 ? 's' : ''}</p>
+  </div>
+
+  {posts.length === 0 ? (
+    <div class="text-center py-16">
+      <p class="text-text-muted">No posts</p>
+    </div>
+  ) : (
+    <div class="grid gap-6">
+      {posts.map((post) => (
+        <PostCard
+          title={post.data.title}
+          description={post.data.description}
+          pubDate={post.data.pubDate}
+          url={`/bugbounty/${post.id}`}
+          tags={post.data.tags}
+        />
+      ))}
+    </div>
+  )}
+</BaseLayout>

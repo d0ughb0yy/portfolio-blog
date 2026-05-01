@@ -1,0 +1,11 @@
+---
+interface Props {
+  tag: string;
+}
+
+const colorClass = 'bg-surface text-text-secondary';
+---
+
+<span class={`text-xs px-2 py-0.5 rounded ${colorClass}`}>
+  {Astro.props.tag}
+</span>
