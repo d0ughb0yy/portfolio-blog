@@ -22,26 +22,29 @@ const formattedDate = Astro.props.pubDate.toLocaleDateString('en-US', {
 ---
 
 <article class="bg-surface border border-border rounded-lg p-6 hover:border-accent/50 transition-colors group">
-  <a href={Astro.props.url} class="block">
-    <div class="flex items-center gap-2 mb-3">
-      {Astro.props.platform && <PlatformBadge platform={Astro.props.platform} />}
-      {Astro.props.difficulty && <DifficultyBadge difficulty={Astro.props.difficulty} />}
-    </div>
-    <h2 class="text-xl font-semibold text-text-primary group-hover:text-accent transition-colors mb-2">
-      {Astro.props.title}
-    </h2>
-    <p class="text-text-secondary text-sm mb-4 line-clamp-2">
-      {Astro.props.description}
-    </p>
-    <div class="flex items-center justify-between">
-      <time class="text-text-muted text-sm" datetime={Astro.props.pubDate.toISOString()}>
-        {formattedDate}
-      </time>
-      <div class="flex gap-1 flex-wrap">
-        {Astro.props.tags.slice(0, 3).map((tag) => (
-          <TagBadge tag={tag} />
-        ))}
-      </div>
-    </div>
-  </a>
+<a href={Astro.props.url} class="block">
+<div class="flex items-center gap-2 mb-3">
+{Astro.props.platform && <PlatformBadge platform={Astro.props.platform} />}
+{Astro.props.difficulty && <DifficultyBadge difficulty={Astro.props.difficulty} />}
+{Astro.props.category === 'bugbounty' && Astro.props.tags.slice(0, 3).map((tag) => <TagBadge tag={tag} colored={true} />)}
+</div>
+<h2 class="text-xl font-semibold text-text-primary group-hover:text-accent transition-colors mb-2">
+{Astro.props.title}
+</h2>
+<p class="text-text-secondary text-sm mb-4 line-clamp-2">
+{Astro.props.description}
+</p>
+<div class="flex items-center justify-between">
+<time class="text-text-muted text-sm" datetime={Astro.props.pubDate.toISOString()}>
+{formattedDate}
+</time>
+{Astro.props.category !== 'bugbounty' && (
+<div class="flex gap-1 flex-wrap">
+{Astro.props.tags.slice(0, 3).map((tag) => (
+<TagBadge tag={tag} />
+))}
+</div>
+)}
+</div>
+</a>
 </article>

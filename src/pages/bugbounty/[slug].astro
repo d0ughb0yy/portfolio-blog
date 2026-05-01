@@ -1,27 +1,46 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection, render } from 'astro:content';
+import TagBadge from '../../components/TagBadge.astro';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('bugbounty', ({ data }) => !data.draft);
-  return posts.map((post) => ({
-    params: { slug: post.id },
-    props: { post },
-  }));
+const posts = await getCollection('bugbounty', ({ data }) => !data.draft);
+return posts.map((post) => ({
+params: { slug: post.id },
+props: { post },
+}));
 }
 
 const { post } = Astro.props;
 const { Content } = await render(post);
+
+const formattedDate = post.data.pubDate.toLocaleDateString('en-US', {
+year: 'numeric',
+month: 'long',
+day: 'numeric',
+});
 ---
 
 <BaseLayout title={post.data.title} description={post.data.description}>
-  <article>
-    <header class="mb-8">
-      <h1 class="text-3xl font-bold text-text-primary mb-4">{post.data.title}</h1>
-    </header>
+<article>
+<header class="mb-8">
+{post.data.tags.length > 0 && (
+<div class="flex items-center gap-2 mb-4">
+{post.data.tags.map((tag) => <TagBadge tag={tag} />)}
+</div>
+)}
+<h1 class="text-3xl font-bold text-text-primary mb-4">{post.data.title}</h1>
+<time class="text-text-muted text-sm" datetime={post.data.pubDate.toISOString()}>
+{formattedDate}
+</time>
+</header>
 
-    <div class="prose max-w-none">
-      <Content />
-    </div>
-  </article>
+<div class="prose max-w-none">
+<Content />
+</div>
+
+<div class="mt-8">
+<a href="/bugbounty" class="text-accent hover:underline text-sm">← Back to Bug Bounty</a>
+</div>
+</article>
 </BaseLayout>

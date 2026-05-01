@@ -20,13 +20,14 @@ const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
   ) : (
     <div class="grid gap-6">
       {posts.map((post) => (
-        <PostCard
-          title={post.data.title}
-          description={post.data.description}
-          pubDate={post.data.pubDate}
-          url={`/bugbounty/${post.id}`}
-          tags={post.data.tags}
-        />
+<PostCard
+title={post.data.title}
+description={post.data.description}
+pubDate={post.data.pubDate}
+url={`/bugbounty/${post.id}`}
+category="bugbounty"
+tags={post.data.tags}
+/>
       ))}
     </div>
   )}
