@@ -4,7 +4,7 @@ import { getCollection, render } from 'astro:content';
 import TagBadge from '../../components/TagBadge.astro';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  const posts = await getCollection('projects', ({ data }) => !data.draft);
   return posts.map((post) => ({
     params: { slug: post.id },
     props: { post },

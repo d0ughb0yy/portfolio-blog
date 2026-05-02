@@ -25,8 +25,8 @@ const bugbountyCollection = defineCollection({
   }),
 });
 
-const blogCollection = defineCollection({
-  loader: glob({ pattern: '**/*.mdx', base: './src/content/blog' }),
+const projectsCollection = defineCollection({
+  loader: glob({ pattern: '**/*.mdx', base: './src/content/projects' }),
   schema: z.object({
     title: z.string(),
     description: z.string(),
@@ -39,5 +39,5 @@ const blogCollection = defineCollection({
 export const collections = {
   ctf: ctfCollection,
   bugbounty: bugbountyCollection,
-  blog: blogCollection,
+  projects: projectsCollection,
 };

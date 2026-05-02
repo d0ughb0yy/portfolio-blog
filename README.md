@@ -1,6 +1,15 @@
 # Security Blog
 
-A static blog for CTF writeups and bug bounty findings, built with Astro.
+A modernized static blog for CTF writeups, bug bounty findings, and security projects, built with Astro.
+
+## Features
+
+- Modern glassmorphism UI with animated gradients and hover effects
+- Responsive design with mobile-friendly navigation
+- Tag-based filtering for all content types
+- Content organized by type: CTF, Bug Bounty, and Projects
+- Dark theme with cyan and blue accent colors
+- Optimized for performance and accessibility
 
 ## Quick Start
 
@@ -15,11 +24,19 @@ npm run dev
 npm run build
 ```
 
-## Add Content
+Preview production build:
+```bash
+npm run preview
+```
+
+## Content Structure
 
 - **CTF posts**: `src/content/ctf/` - `.mdx` files with frontmatter
 - **Bug Bounty**: `src/content/bugbounty/`
-- **Blog**: `src/content/blog/`
+- **Projects**: `src/content/projects/`
+
+### Images
+- CTF post images: `public/images/ctf/{machine-name}/`
 
 ### Frontmatter
 
@@ -35,7 +52,7 @@ tags: ["tag1", "tag2"]
 ---
 ```
 
-Bug Bounty / Blog:
+Bug Bounty / Projects:
 ```yaml
 ---
 title: "Title"

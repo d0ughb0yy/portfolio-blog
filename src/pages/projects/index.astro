@@ -2,33 +2,39 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import PostCard from '../../components/PostCard.astro';
+import FilterTabs from '../../components/FilterTabs.astro';
 
-const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const allPosts = await getCollection('projects', ({ data }) => !data.draft);
 const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const allTags = posts.flatMap((post) => post.data.tags || []);
 ---
 
 <BaseLayout title="Projects" description="Security projects and research">
-<div class="mb-8">
-<h1 class="text-3xl font-bold text-text-primary mb-2">Projects</h1>
-<p class="text-text-secondary">{posts.length} project{posts.length !== 1 ? 's' : ''}</p>
-</div>
+  <section>
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-text-primary mb-2">Projects</h1>
+      <p class="text-text-secondary">{posts.length} project{posts.length !== 1 ? 's' : ''}</p>
+    </div>
 
-{posts.length === 0 ? (
-<div class="text-center py-16">
-<p class="text-text-muted mb-6">No projects yet</p>
-<a href="/" class="px-4 py-2 bg-primary text-background text-sm font-semibold rounded-lg hover:bg-accent transition-colors">Go Home</a>
-</div>
-) : (
-<div class="grid gap-6">
-{posts.map((post) => (
-<PostCard
-title={post.data.title}
-description={post.data.description}
-pubDate={post.data.pubDate}
-url={`/projects/${post.id}`}
-tags={post.data.tags}
-/>
-))}
-</div>
-)}
+    <FilterTabs tags={allTags} />
+
+    <div class="grid gap-4" id="posts-grid">
+      {posts.map((post) => (
+        <PostCard
+          title={post.data.title}
+          description={post.data.description}
+          pubDate={post.data.pubDate}
+          url={`/projects/${post.id}`}
+          category="projects"
+          tags={post.data.tags || []}
+        />
+      ))}
+    </div>
+
+    {posts.length === 0 && (
+      <div class="text-center py-16">
+        <p class="text-text-muted">No posts</p>
+      </div>
+    )}
+  </section>
 </BaseLayout>
