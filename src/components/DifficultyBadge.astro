@@ -17,6 +17,6 @@ const colorClass = difficultyColors[Astro.props.difficulty] || 'bg-gray-500/20 t
 const capitalizedDifficulty = capitalize(Astro.props.difficulty);
 ---
 
-<span class={`text-xs font-mono px-2 py-1 rounded border ${colorClass}`}>
-  {capitalizedDifficulty}
+<span class={`text-xs font-sans px-2 py-1 rounded border ${colorClass}`}>
+	{capitalizedDifficulty}
 </span>

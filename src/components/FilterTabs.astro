@@ -1,7 +1,7 @@
 ---
 interface Props {
   categories?: string[];
-  tags: string[];
+  tags?: string[];
   defaultCategory?: string;
 }
 
@@ -11,18 +11,18 @@ const uniqueTags = [...new Set(tags)].sort();
 
 <div class="filter-container mb-8">
   {categories.length > 0 && (
-    <div class="flex items-center gap-2 mb-4 overflow-x-auto pb-2">
+    <div class="flex items-center gap-2 mb-4 flex-wrap">
       <span class="text-text-muted text-sm mr-2">Filter:</span>
       <div class="flex gap-2" id="category-tabs">
         {categories.map((category, index) => (
-          <button
-            class={`category-btn px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 whitespace-nowrap ${
-              (category.toLowerCase().replace(/\s+/g, '') === defaultCategory || (defaultCategory === 'all' && index === 0))
-                ? 'bg-accent/20 text-accent border border-accent/40'
-                : 'bg-surface/50 text-text-secondary border border-transparent hover:border-accent/30 hover:text-accent'
-            }`}
-            data-category={category.toLowerCase().replace(/\s+/g, '')}
-          >
+<button
+	class={`category-btn px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 whitespace-nowrap ${
+		(category.toLowerCase().replace(/\s+/g, '') === defaultCategory || (defaultCategory === 'all' && index === 0))
+		? 'bg-primary/20 text-primary border border-primary/40'
+		: 'bg-surface/50 text-text-secondary border border-transparent hover:border-primary/30 hover:text-primary'
+	}`}
+	data-category={category.toLowerCase().replace(/\s+/g, '')}
+>
             {category}
           </button>
         ))}
@@ -33,20 +33,20 @@ const uniqueTags = [...new Set(tags)].sort();
   {uniqueTags.length > 0 && (
     <div class="flex items-center gap-2 flex-wrap">
       <span class="text-text-muted text-sm mr-2">Filter:</span>
-      <button
-        class="tag-btn px-3 py-1 rounded-full text-xs font-medium transition-all duration-300 bg-accent/20 text-accent border border-accent/40"
-        data-tag="all"
-      >
-        All
-      </button>
-      {uniqueTags.map((tag) => (
-        <button
-          class="tag-btn px-3 py-1 rounded-full text-xs font-medium transition-all duration-300 bg-surface/50 text-text-secondary border border-transparent hover:border-accent/30 hover:text-accent"
-          data-tag={tag}
-        >
-          {tag}
-        </button>
-      ))}
+<button
+	class="tag-btn px-3 py-1 rounded-full text-xs font-medium transition-all duration-300 bg-primary/20 text-primary border border-primary/40"
+	data-tag="all"
+>
+All
+</button>
+{uniqueTags.map((tag) => (
+	<button
+		class="tag-btn px-3 py-1 rounded-full text-xs font-medium transition-all duration-300 bg-surface/50 text-text-secondary border border-transparent hover:border-primary/30 hover:text-primary"
+		data-tag={tag}
+	>
+		{tag}
+	</button>
+))}
     </div>
   )}
 </div>
@@ -79,29 +79,29 @@ const uniqueTags = [...new Set(tags)].sort();
       updateActiveButtons();
     }
 
-    function updateActiveButtons() {
-      categoryBtns.forEach((btn) => {
-        const btnCategory = btn.getAttribute('data-category');
-        if (btnCategory === activeCategory) {
-          btn.classList.remove('bg-surface/50', 'text-text-secondary', 'border-transparent');
-          btn.classList.add('bg-accent/20', 'text-accent', 'border-accent/40');
-        } else {
-          btn.classList.remove('bg-accent/20', 'text-accent', 'border-accent/40');
-          btn.classList.add('bg-surface/50', 'text-text-secondary', 'border-transparent');
-        }
-      });
+function updateActiveButtons() {
+	categoryBtns.forEach((btn) => {
+		const btnCategory = btn.getAttribute('data-category');
+		if (btnCategory === activeCategory) {
+			btn.classList.remove('bg-surface/50', 'text-text-secondary', 'border-transparent');
+			btn.classList.add('bg-primary/20', 'text-primary', 'border-primary/40');
+		} else {
+			btn.classList.remove('bg-primary/20', 'text-primary', 'border-primary/40');
+			btn.classList.add('bg-surface/50', 'text-text-secondary', 'border-transparent');
+		}
+	});
 
-      tagBtns.forEach((btn) => {
-        const btnTag = btn.getAttribute('data-tag');
-        if (btnTag === activeTag) {
-          btn.classList.remove('bg-surface/50', 'text-text-secondary', 'border-transparent');
-          btn.classList.add('bg-accent/20', 'text-accent', 'border-accent/40');
-        } else {
-          btn.classList.remove('bg-accent/20', 'text-accent', 'border-accent/40');
-          btn.classList.add('bg-surface/50', 'text-text-secondary', 'border-transparent');
-        }
-      });
-    }
+	tagBtns.forEach((btn) => {
+		const btnTag = btn.getAttribute('data-tag');
+		if (btnTag === activeTag) {
+			btn.classList.remove('bg-surface/50', 'text-text-secondary', 'border-transparent');
+			btn.classList.add('bg-primary/20', 'text-primary', 'border-primary/40');
+		} else {
+			btn.classList.remove('bg-primary/20', 'text-primary', 'border-primary/40');
+			btn.classList.add('bg-surface/50', 'text-text-secondary', 'border-transparent');
+		}
+	});
+}
 
     categoryBtns.forEach((btn) => {
       btn.addEventListener('click', () => {

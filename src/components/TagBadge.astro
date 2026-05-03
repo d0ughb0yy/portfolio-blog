@@ -21,15 +21,15 @@ const colors = [
 
 const colorIndex = tag.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) % colors.length;
 const colorClass = colors[colorIndex];
-const plainClass = 'bg-surface text-text-muted border-border';
+const plainClass = 'bg-white/5 text-text-muted border-white/10';
 ---
 
 {colored ? (
-<span class={`text-xs font-mono px-2 py-1 rounded border ${colorClass}`}>
-{tag}
-</span>
+	<span class={`text-xs font-sans px-2 py-1 rounded border ${colorClass}`}>
+	{tag}
+	</span>
 ) : (
-<span class={`text-xs font-mono px-2 py-1 rounded border ${plainClass}`}>
-{tag}
-</span>
+	<span class={`text-xs font-sans px-2 py-1 rounded border ${plainClass}`}>
+	{tag}
+	</span>
 )}

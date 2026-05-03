@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,12 +7,11 @@
 
 @layer base {
   html {
-    @apply bg-background text-text-primary;
-    scroll-behavior: smooth;
+    @apply bg-background text-text-primary scroll-smooth overflow-x-hidden;
   }
 
   body {
-    @apply antialiased;
+    @apply antialiased overflow-x-hidden;
   }
 
   ::selection {
@@ -46,11 +46,11 @@
 
   .prose p { @apply mb-4; }
 
-  .prose a { @apply text-accent hover:underline; }
+  .prose a { @apply text-primary hover:underline; }
 
-  .prose code:not(pre code) {
-    @apply bg-surface px-1.5 py-0.5 rounded text-sm font-mono text-accent;
-  }
+.prose code:not(pre code) {
+	@apply bg-surface px-1.5 py-0.5 rounded text-sm font-mono text-primary;
+}
 
   .prose pre {
     @apply bg-surface border border-border rounded-lg p-4 overflow-x-auto my-6;
@@ -65,9 +65,9 @@
 
   .prose li { @apply mb-2; }
 
-  .prose blockquote {
-    @apply border-l-4 border-accent pl-4 italic text-text-muted my-6;
-  }
+.prose blockquote {
+	@apply border-l-4 border-primary pl-4 italic text-text-muted my-6;
+}
 
   .prose img {
     @apply rounded-lg my-6;
@@ -91,40 +91,40 @@
 }
 
 @layer utilities {
-  .gradient-text {
-    @apply bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent;
-  }
+.gradient-text {
+	@apply bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent;
+}
 
   .gradient-border {
     position: relative;
   }
 
-  .gradient-border::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    padding: 1px;
-    border-radius: inherit;
-    background: linear-gradient(135deg, #22d3ee, #60a5fa);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
+.gradient-border::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	padding: 1px;
+	border-radius: inherit;
+	background: linear-gradient(135deg, #f472b6, #38bdf8);
+	-webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+	mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+	-webkit-mask-composite: xor;
+	mask-composite: exclude;
+	opacity: 0;
+	transition: opacity 0.3s ease;
+}
 
   .gradient-border:hover::before {
     opacity: 1;
   }
 
-  .glow-accent {
-    box-shadow: 0 0 20px rgba(34, 211, 238, 0.15);
-  }
+.glow-accent {
+	box-shadow: 0 0 20px rgba(244, 114, 182, 0.15);
+}
 
-  .glow-accent-hover:hover {
-    box-shadow: 0 0 30px rgba(34, 211, 238, 0.25);
-  }
+.glow-accent-hover:hover {
+	box-shadow: 0 0 30px rgba(244, 114, 182, 0.25);
+}
 
   .glass {
     @apply bg-surface/80 backdrop-blur-md border border-border/50;
@@ -156,12 +156,11 @@
   .stagger-4 { animation-delay: 0.4s; }
   .stagger-5 { animation-delay: 0.5s; }
 
-  .mesh-gradient {
-    background: 
-      radial-gradient(ellipse at 20% 20%, rgba(34, 211, 238, 0.08) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 80%, rgba(96, 165, 250, 0.06) 0%, transparent 50%),
-      radial-gradient(ellipse at 50% 50%, rgba(34, 211, 238, 0.03) 0%, transparent 70%);
-  }
+.mesh-gradient {
+	background: radial-gradient(ellipse at 20% 20%, rgba(56, 189, 248, 0.08) 0%, transparent 50%),
+		radial-gradient(ellipse at 80% 80%, rgba(244, 114, 182, 0.06) 0%, transparent 50%),
+		radial-gradient(ellipse at 50% 50%, rgba(56, 189, 248, 0.03) 0%, transparent 70%);
+}
 }
 
 @keyframes fadeIn {

@@ -4,6 +4,7 @@ import { getCollection, render } from 'astro:content';
 import PlatformBadge from '../../components/PlatformBadge.astro';
 import DifficultyBadge from '../../components/DifficultyBadge.astro';
 import TagBadge from '../../components/TagBadge.astro';
+import ClickableImage from '../../components/ClickableImage.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('ctf', ({ data }) => !data.draft);
@@ -16,6 +17,10 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await render(post);
 
+const components = {
+  img: ClickableImage,
+};
+
 const formattedDate = post.data.pubDate.toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'long',
@@ -24,8 +29,8 @@ const formattedDate = post.data.pubDate.toLocaleDateString('en-US', {
 ---
 
 <BaseLayout title={post.data.title} description={post.data.description}>
-  <article>
-    <header class="mb-8">
+<article class="glass-strong rounded-2xl p-8">
+	<header class="mb-8">
       <div class="flex items-center gap-2 mb-4">
         <PlatformBadge platform={post.data.ctfPlatform} />
         <DifficultyBadge difficulty={post.data.difficulty} />
@@ -36,8 +41,8 @@ const formattedDate = post.data.pubDate.toLocaleDateString('en-US', {
       </time>
     </header>
 
-    <div class="prose max-w-none">
-      <Content />
+<div class="prose max-w-none">
+  <Content components={components} />
     </div>
 
     {post.data.tags.length > 0 && (
@@ -48,8 +53,8 @@ const formattedDate = post.data.pubDate.toLocaleDateString('en-US', {
       </footer>
     )}
 
-    <div class="mt-8">
-      <a href="/ctf" class="text-accent hover:underline text-sm">← Back to CTF Writeups</a>
-    </div>
+<div class="mt-8">
+	<a href="/ctf" class="text-primary hover:underline text-sm">← Back to CTF Writeups</a>
+</div>
   </article>
 </BaseLayout>

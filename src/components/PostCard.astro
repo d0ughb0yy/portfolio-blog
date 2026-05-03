@@ -4,63 +4,60 @@ import DifficultyBadge from './DifficultyBadge.astro';
 import TagBadge from './TagBadge.astro';
 
 interface Props {
-  title: string;
-  description: string;
-  pubDate: Date;
-  url: string;
-  platform?: string;
-  difficulty?: string;
-  category?: string;
-  tags: string[];
+	title: string;
+	description: string;
+	pubDate: Date;
+	url: string;
+	platform?: string;
+	difficulty?: string;
+	category?: string;
+	tags: string[];
 }
 
 const formattedDate = Astro.props.pubDate.toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'short',
-  day: 'numeric',
+	year: 'numeric',
+	month: 'short',
+	day: 'numeric',
 });
 ---
 
-<article class="post-card group opacity-0 animate-fade-in-up" data-category={Astro.props.category} data-tags={`${Astro.props.platform ? Astro.props.platform + ',' : ''}${Astro.props.tags ? Astro.props.tags.join(',') : ''}`.replace(/,$/, '')}>
-  <a href={Astro.props.url} class="block relative p-6 rounded-xl bg-surface/50 border border-border/50 hover:border-accent/30 transition-all duration-500 hover:scale-[1.02]">
-    <div class="absolute inset-0 rounded-xl bg-gradient-to-br from-accent/5 to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-    
-    <div class="relative z-10">
-      <div class="flex items-center gap-2 mb-3 flex-wrap">
-        {Astro.props.platform && <PlatformBadge platform={Astro.props.platform} />}
-        {Astro.props.difficulty && <DifficultyBadge difficulty={Astro.props.difficulty} />}
-        {(Astro.props.category === 'bugbounty' || Astro.props.category === 'projects') && Astro.props.tags.slice(0, 3).map((tag) => <TagBadge tag={tag} colored={true} />)}
-      </div>
-      
-      <h2 class="text-xl font-semibold text-text-primary group-hover:text-accent transition-colors duration-300 mb-2">
-        {Astro.props.title}
-      </h2>
-      <p class="text-text-secondary text-sm mb-4 line-clamp-2 group-hover:text-text-secondary/90 transition-colors">
-        {Astro.props.description}
-      </p>
-      
-      <div class="flex items-center justify-between pt-4 border-t border-border/30">
-        <time class="text-text-muted text-sm flex items-center gap-2" datetime={Astro.props.pubDate.toISOString()}>
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2H5a2 2 0 00-2-2H5"/>
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-          </svg>
-          {formattedDate}
-        </time>
-      </div>
-    </div>
-  </a>
+<article class="post-card group opacity-0 animate-fade-in-up" data-category={Astro.props.category} data-tags={Astro.props.tags ? Astro.props.tags.join(',') : ''}>
+	<a href={Astro.props.url} class="block relative p-8 rounded-2xl bg-surface/80 backdrop-blur-xl border border-border/50 hover:border-primary/70 hover:shadow-[0_0_20px_rgba(56,189,248,0.3)] transition-all duration-300">
+		<div class="relative z-10">
+			<div class="flex items-center gap-2 mb-3 flex-wrap">
+				{Astro.props.platform && <PlatformBadge platform={Astro.props.platform} />}
+				{Astro.props.difficulty && <DifficultyBadge difficulty={Astro.props.difficulty} />}
+				{(Astro.props.category === 'bugbounty' || Astro.props.category === 'projects') && Astro.props.tags.slice(0, 3).map((tag) => <TagBadge tag={tag} colored={true} />)}
+			</div>
+
+			<h2 class="font-mono text-2xl font-semibold mb-4 text-text group-hover:text-primary transition-colors duration-300">
+				{Astro.props.title}
+			</h2>
+			<p class="text-text-muted mb-6 leading-relaxed flex-grow line-clamp-2">
+				{Astro.props.description}
+			</p>
+
+			<div class="flex items-center justify-between pt-4 border-t border-border/30">
+				<time class="text-text-muted text-sm flex items-center gap-2" datetime={Astro.props.pubDate.toISOString()}>
+					<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+					</svg>
+					{formattedDate}
+				</time>
+			</div>
+		</div>
+	</a>
 </article>
 
 <style>
-  .post-card:nth-child(1) { animation-delay: 0.1s; }
-  .post-card:nth-child(2) { animation-delay: 0.15s; }
-  .post-card:nth-child(3) { animation-delay: 0.2s; }
-  .post-card:nth-child(4) { animation-delay: 0.25s; }
-  .post-card:nth-child(5) { animation-delay: 0.3s; }
-  .post-card:nth-child(6) { animation-delay: 0.35s; }
-  .post-card:nth-child(7) { animation-delay: 0.4s; }
-  .post-card:nth-child(8) { animation-delay: 0.45s; }
-  .post-card:nth-child(9) { animation-delay: 0.5s; }
-  .post-card:nth-child(10) { animation-delay: 0.55s; }
+	.post-card:nth-child(1) { animation-delay: 0.1s; }
+	.post-card:nth-child(2) { animation-delay: 0.15s; }
+	.post-card:nth-child(3) { animation-delay: 0.2s; }
+	.post-card:nth-child(4) { animation-delay: 0.25s; }
+	.post-card:nth-child(5) { animation-delay: 0.3s; }
+	.post-card:nth-child(6) { animation-delay: 0.35s; }
+	.post-card:nth-child(7) { animation-delay: 0.4s; }
+	.post-card:nth-child(8) { animation-delay: 0.45s; }
+	.post-card:nth-child(9) { animation-delay: 0.5s; }
+	.post-card:nth-child(10) { animation-delay: 0.55s; }
 </style>

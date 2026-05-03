@@ -14,7 +14,7 @@ const allDifficulties = [...new Set(posts.map((post) => post.data.difficulty).fi
 <BaseLayout title="CTF Writeups" description="CTF writeups and walkthroughs">
   <section>
     <div class="mb-8">
-      <h1 class="text-3xl font-bold text-text-primary mb-2">CTF Writeups</h1>
+      <h1 class="text-3xl font-bold text-text-primary mb-2 font-mono">CTF Writeups</h1>
       <p class="text-text-secondary">{posts.length} writeup{posts.length !== 1 ? 's' : ''}</p>
     </div>
 
@@ -30,7 +30,7 @@ const allDifficulties = [...new Set(posts.map((post) => post.data.difficulty).fi
           category="ctf"
           platform={post.data.ctfPlatform}
           difficulty={post.data.difficulty}
-          tags={[...(post.data.ctfPlatform ? [post.data.ctfPlatform] : []), ...(post.data.difficulty ? [post.data.difficulty] : []), ...(post.data.tags || [])]}
+          tags={[...(post.data.difficulty ? [post.data.difficulty] : []), ...(post.data.tags || [])]}
         />
       ))}
     </div>

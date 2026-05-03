@@ -39,18 +39,21 @@ const categories = ['All', 'CTF', 'Bug Bounty', 'Projects'];
           url = `/projects/${post.id}`;
         }
 
-        return (
-          <PostCard
-            title={post.data.title}
-            description={post.data.description}
-            pubDate={post.data.pubDate}
-            url={url}
-            category={post._type}
-            platform={post.data.ctfPlatform}
-            difficulty={post.data.difficulty}
-            tags={post.data.tags}
-          />
-        );
+const platform = post._type === 'ctf' ? (post.data as any).ctfPlatform : undefined;
+const difficulty = post._type === 'ctf' ? (post.data as any).difficulty : undefined;
+
+return (
+  <PostCard
+    title={post.data.title}
+    description={post.data.description}
+    pubDate={post.data.pubDate}
+    url={url}
+    category={post._type}
+    platform={platform}
+    difficulty={difficulty}
+    tags={post.data.tags}
+  />
+);
       })}
     </div>
 

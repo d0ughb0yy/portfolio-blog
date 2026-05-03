@@ -1,0 +1,77 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+}
+
+const { src, alt } = Astro.props;
+---
+
+<div class="image-wrapper my-4">
+  <button 
+    type="button"
+    class="prose-image-trigger focus:outline-none rounded-lg overflow-hidden block w-full"
+    data-src={src}
+    data-alt={alt}
+  >
+    <img 
+      src={src} 
+      alt={alt}
+      class="w-3/4 h-auto rounded-lg mx-auto block"
+      loading="lazy"
+    />
+  </button>
+</div>
+
+<style>
+  dialog::backdrop {
+    background: rgba(0, 0, 0, 0.9);
+  }
+  
+  dialog[open] {
+    animation: fadeIn 0.15s ease-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll('.prose-image-trigger').forEach(trigger => {
+    trigger.addEventListener('click', () => {
+      const src = trigger.getAttribute('data-src');
+      const alt = trigger.getAttribute('data-alt');
+      const modal = document.getElementById('global-image-modal');
+      const modalImg = document.getElementById('global-modal-image');
+      
+      if (src && modal && modalImg) {
+        modalImg.src = src;
+        modalImg.alt = alt || '';
+        (modal as HTMLDialogElement).showModal();
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  });
+  
+  const modal = document.getElementById('global-image-modal');
+  modal?.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      (modal as HTMLDialogElement).close();
+      document.body.style.overflow = '';
+    }
+  });
+  
+  document.getElementById('global-modal-close')?.addEventListener('click', () => {
+    (modal as HTMLDialogElement).close();
+    document.body.style.overflow = '';
+  });
+  
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.hasAttribute('open')) {
+      (modal as HTMLDialogElement).close();
+      document.body.style.overflow = '';
+    }
+  });
+</script>
