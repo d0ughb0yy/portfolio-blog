@@ -69,10 +69,10 @@ All
         const tagMatch = activeTag === 'all' || cardTags.includes(activeTag);
 
         if (categoryMatch && tagMatch) {
-          (card as HTMLElement).style.display = 'block';
+          card.style.display = 'block';
           card.classList.add('animate-fade-in');
         } else {
-          (card as HTMLElement).style.display = 'none';
+          card.style.display = 'none';
         }
       });
 

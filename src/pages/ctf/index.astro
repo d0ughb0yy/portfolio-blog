@@ -30,7 +30,7 @@ const allDifficulties = [...new Set(posts.map((post) => post.data.difficulty).fi
           category="ctf"
           platform={post.data.ctfPlatform}
           difficulty={post.data.difficulty}
-          tags={[...(post.data.difficulty ? [post.data.difficulty] : []), ...(post.data.tags || [])]}
+          tags={[...(post.data.ctfPlatform ? [post.data.ctfPlatform] : []), ...(post.data.difficulty ? [post.data.difficulty] : []), ...(post.data.tags || [])]}
         />
       ))}
     </div>

@@ -43,7 +43,7 @@ const { title, description = 'Security research blog - CTF writeups and bug boun
 				</svg>
 			</button>
 
-			<div id="nav-links" class="hidden xl:flex items-center gap-8 px-4">
+			<div id="nav-links" class="hidden xl:flex items-center gap-6 px-4">
 				<a href="/" class="nav-link">Home</a>
 				<a href="/ctf" class="nav-link">CTF</a>
 				<a href="/bugbounty" class="nav-link">Bug Bounty</a>
@@ -54,7 +54,7 @@ const { title, description = 'Security research blog - CTF writeups and bug boun
 			</div>
 		</nav>
 
-		<div id="mobile-menu" class="hidden xl:hidden max-w-6xl mx-auto bg-surface">
+		<div id="mobile-menu" class="hidden xl:hidden w-full bg-surface">
 			<div class="flex flex-col items-center py-6 gap-2">
 				<a href="/" class="nav-link-mobile">Home</a>
 				<a href="/ctf" class="nav-link-mobile">CTF</a>
@@ -139,6 +139,27 @@ const { title, description = 'Security research blog - CTF writeups and bug boun
   </svg>
 </button>
 
+<dialog
+  id="global-image-modal"
+  class="backdrop:bg-black/90 p-0 border-0 bg-transparent"
+>
+  <img
+    id="global-modal-image"
+    src=""
+    alt=""
+    class="max-w-[90vw] max-h-[85vh] object-contain rounded-lg"
+  />
+  <button
+    id="global-modal-close"
+    class="absolute top-1 right-1 z-10 w-8 h-8 bg-surface/80 rounded-full flex items-center justify-center text-primary hover:text-primary hover:bg-surface transition-colors"
+    aria-label="Close modal"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6l12 12M18 6l-12 12" />
+    </svg>
+  </button>
+</dialog>
+
 <script>
   const backToTopBtn = document.getElementById('back-to-top');
   
@@ -199,15 +220,36 @@ const { title, description = 'Security research blog - CTF writeups and bug boun
 		50% { background-position: 100% 50%; }
 	}
 
-	.nav-link {
-		@apply text-text-muted hover:text-primary cursor-pointer transition-colors;
-	}
+.nav-link {
+  color: #ebe6e7;
+  @apply hover:text-primary cursor-pointer transition-colors;
+}
 
-	.nav-link-mobile {
-		@apply text-text-muted hover:text-primary transition-colors py-3 cursor-pointer text-lg w-full text-center;
-	}
+.nav-link-mobile {
+  color: #ebe6e7;
+  @apply hover:text-primary transition-colors py-3 cursor-pointer text-lg w-full text-center;
+}
 
-	.social-icon {
-		@apply text-text-muted hover:text-primary transition-all duration-300 hover:scale-110;
-	}
+.social-icon {
+  @apply text-text-muted hover:text-primary transition-all duration-300 hover:scale-110;
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+dialog[open] {
+  animation: fadeIn 0.15s ease-out;
+}
+
+#global-image-modal[open] #global-modal-close {
+  position: fixed !important;
+  top: 1rem !important;
+  right: 1rem !important;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 </style>

@@ -17,7 +17,7 @@ const { src, alt } = Astro.props;
     <img 
       src={src} 
       alt={alt}
-      class="w-3/4 h-auto rounded-lg mx-auto block"
+      class="w-1/2 h-auto rounded-lg mx-auto block"
       loading="lazy"
     />
   </button>
@@ -39,39 +39,54 @@ const { src, alt } = Astro.props;
 </style>
 
 <script>
-  document.querySelectorAll('.prose-image-trigger').forEach(trigger => {
-    trigger.addEventListener('click', () => {
-      const src = trigger.getAttribute('data-src');
-      const alt = trigger.getAttribute('data-alt');
-      const modal = document.getElementById('global-image-modal');
-      const modalImg = document.getElementById('global-modal-image');
+let scrollPos = 0;
+
+const closeModal = () => {
+  document.documentElement.style.position = '';
+  document.documentElement.style.top = '';
+  document.documentElement.style.width = '';
+  window.scrollTo({
+    top: scrollPos,
+    behavior: 'instant'
+  });
+  modal?.close();
+};
+
+document.querySelectorAll('.prose-image-trigger').forEach(trigger => {
+  trigger.addEventListener('click', (e) => {
+    e.preventDefault();
+    const src = trigger.getAttribute('data-src');
+    const alt = trigger.getAttribute('data-alt');
+    const modalImg = document.getElementById('global-modal-image') as HTMLImageElement | null;
+
+    if (src && modal && modalImg) {
+      scrollPos = window.scrollY;
+      document.documentElement.style.position = 'fixed';
+      document.documentElement.style.top = `-${scrollPos}px`;
+      document.documentElement.style.width = '100%';
       
-      if (src && modal && modalImg) {
-        modalImg.src = src;
-        modalImg.alt = alt || '';
-        (modal as HTMLDialogElement).showModal();
-        document.body.style.overflow = 'hidden';
-      }
-    });
-  });
-  
-  const modal = document.getElementById('global-image-modal');
-  modal?.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      (modal as HTMLDialogElement).close();
-      document.body.style.overflow = '';
+      modalImg.src = src;
+      modalImg.alt = alt || '';
+      modal.showModal();
+      (trigger as HTMLButtonElement).blur();
     }
   });
-  
-  document.getElementById('global-modal-close')?.addEventListener('click', () => {
-    (modal as HTMLDialogElement).close();
-    document.body.style.overflow = '';
-  });
-  
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal?.hasAttribute('open')) {
-      (modal as HTMLDialogElement).close();
-      document.body.style.overflow = '';
-    }
-  });
+});
+
+const modal = document.getElementById('global-image-modal') as HTMLDialogElement | null;
+const closeBtn = document.getElementById('global-modal-close') as HTMLButtonElement | null;
+
+modal?.addEventListener('click', (e) => {
+  if (e.target === modal) {
+    closeModal();
+  }
+});
+
+closeBtn?.addEventListener('click', closeModal);
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && modal?.hasAttribute('open')) {
+    closeModal();
+  }
+});
 </script>
