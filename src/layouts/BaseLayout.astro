@@ -25,7 +25,7 @@ const { title, description = 'Security research blog - CTF writeups and bug boun
 	<script async src="https://www.googletagmanager.com/gtag/js?id=G-EWDHWHP1BC"></script>
 	<script>
 		window.dataLayer = window.dataLayer || [];
-		function gtag(){dataLayer.push(arguments);}
+		window.gtag = function gtag(){window.dataLayer.push(arguments);};
 		gtag('js', new Date());
 		gtag('config', 'G-EWDHWHP1BC');
 	</script>
