@@ -38,24 +38,46 @@ const { title, description = 'Security research blog - CTF writeups and bug boun
 			</a>
 
 			<button id="mobile-menu-btn" class="xl:hidden text-text-muted hover:text-primary transition-colors" aria-label="Toggle menu">
-				<svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-				</svg>
-			</button>
+			<svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+			</svg>
+			<svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+			</svg>
+		</button>
 
 			<div id="nav-links" class="hidden xl:flex items-center gap-6 px-4">
-				<a href="/" class="nav-link">Home</a>
-				<a href="/ctf" class="nav-link">CTF</a>
-				<a href="/bugbounty" class="nav-link">Bug Bounty</a>
-				<a href="/projects" class="nav-link">Projects</a>
-				<a href="https://tinl-portfolio.netlify.app" target="_blank" rel="noopener noreferrer" class="nav-link">
-					Portfolio
-				</a>
+				<div class="relative group py-1">
+					<a href="/" class="nav-link relative z-10">Home</a>
+					<span class="absolute bottom-0 left-0 w-full h-px bg-primary origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100"></span>
+				</div>
+				<div class="relative group py-1">
+					<a href="/ctf" class="nav-link relative z-10">CTF</a>
+					<span class="absolute bottom-0 left-0 w-full h-px bg-primary origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100"></span>
+				</div>
+				<div class="relative group py-1">
+					<a href="/bugbounty" class="nav-link relative z-10">Bug Bounty</a>
+					<span class="absolute bottom-0 left-0 w-full h-px bg-primary origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100"></span>
+				</div>
+				<div class="relative group py-1">
+					<a href="/projects" class="nav-link relative z-10">Projects</a>
+					<span class="absolute bottom-0 left-0 w-full h-px bg-primary origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100"></span>
+				</div>
+				<div class="relative group py-1">
+					<a href="https://tinl-portfolio.netlify.app" target="_blank" rel="noopener noreferrer" class="nav-link relative z-10">Portfolio</a>
+					<span class="absolute bottom-0 left-0 w-full h-px bg-primary origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100"></span>
+				</div>
 			</div>
 		</nav>
 
-		<div id="mobile-menu" class="hidden xl:hidden w-full bg-surface">
-			<div class="flex flex-col items-center py-6 gap-2">
+		<div id="mobile-menu" class="xl:hidden fixed right-0 top-0 bottom-0 w-64 bg-background/40 backdrop-blur-xl z-50 transform translate-x-full transition-transform duration-300 ease-out">
+			<button id="mobile-menu-close" type="button" class="absolute top-4 right-4 text-text-muted hover:text-primary transition-colors" aria-label="Close menu">
+				<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+				</svg>
+			</button>
+
+			<div class="flex flex-col items-center pt-16 gap-2">
 				<a href="/" class="nav-link-mobile">Home</a>
 				<a href="/ctf" class="nav-link-mobile">CTF</a>
 				<a href="/bugbounty" class="nav-link-mobile">Bug Bounty</a>
@@ -65,6 +87,8 @@ const { title, description = 'Security research blog - CTF writeups and bug boun
 				</a>
 			</div>
 		</div>
+
+		<div id="mobile-backdrop" class="hidden fixed inset-0 bg-background/80 backdrop-blur-sm z-40 xl:hidden opacity-0 transition-opacity duration-300"></div>
 	</header>
 
 	{showHero && (
@@ -179,19 +203,49 @@ const { title, description = 'Security research blog - CTF writeups and bug boun
   });
 
   const menuBtn = document.getElementById('mobile-menu-btn');
-		const mobileMenu = document.getElementById('mobile-menu');
-		const menuIcon = document.getElementById('menu-icon');
-		const navbar = document.getElementById('navbar');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const menuIcon = document.getElementById('menu-icon');
+  const closeIcon = document.getElementById('close-icon');
+  const backdrop = document.getElementById('mobile-backdrop');
+  const navbar = document.getElementById('navbar');
 
-		menuBtn?.addEventListener('click', () => {
-			mobileMenu?.classList.toggle('hidden');
-			const isOpen = !mobileMenu?.classList.contains('hidden');
-			if (isOpen) {
-				menuIcon?.setAttribute('d', 'M6 18L18 6M6 6l12 12');
-			} else {
-				menuIcon?.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
-			}
-		});
+  const toggleMenu = () => {
+    const isOpen = mobileMenu?.classList.contains('translate-x-full');
+
+    if (isOpen) {
+      mobileMenu?.classList.remove('translate-x-full');
+      mobileMenu?.classList.add('translate-x-0');
+      backdrop?.classList.remove('hidden');
+      setTimeout(() => backdrop?.classList.add('opacity-100'), 10);
+      menuIcon?.classList.add('hidden');
+      closeIcon?.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    } else {
+      closeMenu();
+    }
+  };
+
+  const closeMenu = () => {
+    mobileMenu?.classList.remove('translate-x-0');
+    mobileMenu?.classList.add('translate-x-full');
+    backdrop?.classList.remove('opacity-100');
+    setTimeout(() => backdrop?.classList.add('hidden'), 300);
+    menuIcon?.classList.remove('hidden');
+    closeIcon?.classList.add('hidden');
+    document.body.style.overflow = '';
+  };
+
+  menuBtn?.addEventListener('click', toggleMenu);
+  backdrop?.addEventListener('click', closeMenu);
+  document.getElementById('mobile-menu-close')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    closeMenu();
+  });
+
+  document.querySelectorAll('#mobile-menu a').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
 
 		window.addEventListener('scroll', () => {
 			const currentScroll = window.scrollY;
@@ -228,6 +282,11 @@ const { title, description = 'Security research blog - CTF writeups and bug boun
 .nav-link-mobile {
   color: #ebe6e7;
   @apply hover:text-primary transition-colors py-3 cursor-pointer text-lg w-full text-center;
+  transition: transform 0.15s ease-out, color 0.2s ease;
+}
+
+.nav-link-mobile:active {
+  transform: scale(0.98);
 }
 
 .social-icon {
