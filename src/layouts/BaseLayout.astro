@@ -5,7 +5,7 @@ interface Props {
 	showHero?: boolean;
 }
 
-const { title, description = 'Security research blog - CTF writeups and bug bounty findings', showHero = false, customHead } = Astro.props;
+const { title, description = 'Security research blog - CTF writeups and bug bounty findings', showHero = false } = Astro.props;
 ---
 
 <!doctype html>
@@ -16,7 +16,6 @@ const { title, description = 'Security research blog - CTF writeups and bug boun
 	<meta name="description" content={description} />
 	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 	<meta name="generator" content={Astro.generator} />
-	{customHead}
 	<title>{title} | Tin Lučić - Blog</title>
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

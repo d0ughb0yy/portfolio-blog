@@ -24,7 +24,7 @@ const allPosts = [...blogPosts, ...ctfPosts, ...bugbountyPosts]
 const categories = ['All', 'CTF', 'Bug Bounty', 'Projects'];
 ---
 
-<BaseLayout title="Home" description="Security research blog - CTF writeups and bug bounty findings" showHero={true} customHead={`<meta name="google-site-verification" content="V7ey-CBS45MB1F1wnw0Mca_V55A3HIY2MVsvFtrgeYk" />`}>
+<BaseLayout title="Home" description="Security research blog - CTF writeups and bug bounty findings" showHero={true}>
   <section>
     <FilterTabs categories={categories} defaultCategory="all" />
     
