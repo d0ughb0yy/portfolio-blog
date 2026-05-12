@@ -12,7 +12,7 @@ const allTags = posts.flatMap((post) => post.data.tags || []);
 <BaseLayout title="Projects" description="Security projects and research">
   <section>
     <div class="mb-8">
-      <h1 class="text-3xl font-bold text-text-primary mb-2 font-mono">Projects</h1>
+      <h1 class="section-title !text-left !mb-2 after:hidden">Projects</h1>
       <p class="text-text-secondary">{posts.length} project{posts.length !== 1 ? 's' : ''}</p>
     </div>
 

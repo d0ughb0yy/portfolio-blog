@@ -10,7 +10,7 @@
 - **Framework**: Astro 5.x + Tailwind CSS 3.x
 - **Content**: `src/content/ctf/`, `src/content/bugbounty/`, `src/content/projects/` (`.mdx` files)
 - **Images**: `public/images/ctf/{machine-name}/`, reference in MDX as `/images/ctf/{name}/image.png`
-- **Layouts**: `src/layouts/BaseLayout.astro` (main layout with nav, footer, image modal)
+- **Layouts**: `src/layouts/BaseLayout.astro` (main layout with nav, hero, footer, image modal, matrix canvas, grid bg)
 - **Components**: `src/components/` (ClickableImage, FilterTabs, PostCard, etc.)
 
 ## Content Collections Schema
@@ -25,7 +25,7 @@
   - Saves `window.scrollY`, sets `document.documentElement.style.position = 'fixed'`
   - Restores with `window.scrollTo({top: scrollPos, behavior: 'instant'})`
 - **Close methods**: Click X button, click backdrop, press Escape
-- **X button**: Fixed position in viewport top-right corner (`z-[99999]`), blue (`text-primary`)
+- **X button**: Fixed position in viewport top-right corner, green (`text-primary` which is `#22c55e`)
 
 ## Filtering System
 - **Component**: `src/components/FilterTabs.astro`
@@ -34,12 +34,17 @@
 - **Note**: Platform must be included in `data-tags` for filtering to work (see ctf/index.astro)
 
 ## Design System
-- Background: `#0f172a`, Surface: `#1e293b`, Border: `#475569`
-- Primary: `#38bdf8` (sky blue), Accent: `#f472b6` (pink)
-- **Text-muted: `#ebe6e7`** (updated from `#94a3b8` to match portfolio-v2)
-- Nav links: `color: #ebe6e7` with `hover:text-primary`
-- Fonts: Inter (sans), Share Tech Mono (mono)
-- Card style: rounded-2xl with backdrop blur and glow shadow on hover
+- Background: `#020617`, Surface: `#0f172a`, Surface-elevated: `#1e293b`, Border: `#334155`
+- Primary/accent: `#22c55e` (terminal green) — all interactive elements, hover states, active states
+- Text: primary `#f8fafc`, secondary `#cbd5e1`, muted `#94a3b8`, dim `#64748b`
+- Fonts: Space Grotesk (body), Archivo (headings/h1-h6), Share Tech Mono (code)
+- Nav: Transparent initially, glass background + border-bottom on scroll (`.nav.scrolled`)
+- Nav links: `color: #94a3b8` with `hover:text-primary` and green underline active indicator
+- Card style: `rounded-xl` (`border-radius: 12px`), `border: 1px solid var(--border)`, hover: green border + green glow shadow
+- Buttons: Outlined green style (`.btn`), primary variant fills green, ghost variant has green hover
+- Hero: Terminal badge with pulsing dot, typewriter name, role rotation, green glow orb, scroll indicator
+- Background: Fixed grid pattern + matrix rain canvas (opacity 0.15)
+- Selection: Green background (`#22c55e`) on dark text (`#020617`)
 
 ## Deployment
 - Deployed via GitHub to Netlify
@@ -51,6 +56,8 @@
 - **Modal button positioning**: Must be inside `<dialog>` for top-layer access, use CSS `dialog[open] #button { position: fixed !important; }`
 - **No pre-commit hooks or CI configured** - builds are the only verification
 - **Content changes**: Run `npm run build` to verify content collections parse correctly
+- **Matrix canvas**: Uses canvas element with `opacity: 0.15`, respects `prefers-reduced-motion`
+- **Hero typewriter/role rotation**: Runs only on pages with `showHero={true}`
 
 ## CTF Post Images
 - Place images in `public/images/ctf/{machine-name}/`

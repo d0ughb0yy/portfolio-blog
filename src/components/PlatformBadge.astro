@@ -15,6 +15,6 @@ const platformColors: Record<string, string> = {
 const colorClass = platformColors[Astro.props.platform] || platformColors.Other;
 ---
 
-<span class={`text-xs font-sans px-2 py-1 rounded border ${colorClass}`}>
+<span class={`text-xs font-mono px-2 py-1 rounded border ${colorClass}`}>
 	{Astro.props.platform}
 </span>

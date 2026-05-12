@@ -27,7 +27,7 @@ const formattedDate = post.data.pubDate.toLocaleDateString('en-US', {
 ---
 
 <BaseLayout title={post.data.title} description={post.data.description}>
-<article class="glass-strong rounded-2xl p-8">
+<article class="bg-surface border border-border rounded-xl p-8">
 	<header class="mb-8">
       <h1 class="text-3xl font-bold text-text-primary mb-4">{post.data.title}</h1>
       <time class="text-text-muted text-sm" datetime={post.data.pubDate.toISOString()}>

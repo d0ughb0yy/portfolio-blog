@@ -22,7 +22,7 @@ const formattedDate = Astro.props.pubDate.toLocaleDateString('en-US', {
 ---
 
 <article class="post-card group opacity-0 animate-fade-in-up" data-category={Astro.props.category} data-tags={Astro.props.tags ? Astro.props.tags.join(',') : ''}>
-	<a href={Astro.props.url} class="block relative p-8 rounded-2xl bg-surface/80 backdrop-blur-xl border border-border/50 hover:border-primary/70 hover:shadow-[0_0_20px_rgba(56,189,248,0.3)] transition-all duration-300">
+	<a href={Astro.props.url} class="block relative p-8 rounded-xl bg-surface border border-border transition-all duration-200 hover:border-primary hover:shadow-[0_0_24px_rgba(34,197,94,0.4)]">
 		<div class="relative z-10">
 			<div class="flex items-center gap-2 mb-3 flex-wrap">
 				{Astro.props.platform && <PlatformBadge platform={Astro.props.platform} />}
@@ -30,15 +30,15 @@ const formattedDate = Astro.props.pubDate.toLocaleDateString('en-US', {
 				{(Astro.props.category === 'bugbounty' || Astro.props.category === 'projects') && Astro.props.tags.slice(0, 3).map((tag) => <TagBadge tag={tag} colored={true} />)}
 			</div>
 
-			<h2 class="font-mono text-2xl font-semibold mb-4 text-text group-hover:text-primary transition-colors duration-300">
+			<h2 class="font-heading text-2xl font-semibold mb-4 text-text group-hover:text-primary transition-colors duration-200">
 				{Astro.props.title}
 			</h2>
 			<p class="text-text-muted mb-6 leading-relaxed flex-grow line-clamp-2">
 				{Astro.props.description}
 			</p>
 
-			<div class="flex items-center justify-between pt-4 border-t border-border/30">
-				<time class="text-text-muted text-sm flex items-center gap-2" datetime={Astro.props.pubDate.toISOString()}>
+			<div class="flex items-center justify-between pt-4 border-t border-border">
+				<time class="text-text-dim text-sm flex items-center gap-2" datetime={Astro.props.pubDate.toISOString()}>
 					<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
 					</svg>

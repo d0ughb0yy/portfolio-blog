@@ -4,24 +4,29 @@ export default {
 	theme: {
 		extend: {
 			colors: {
-				background: '#0f172a',
-				surface: '#1e293b',
+				background: '#020617',
+				surface: '#0f172a',
+				'surface-elevated': '#1e293b',
 				hover: '#334155',
-				border: '#475569',
+				border: '#334155',
 				text: {
 					primary: '#f8fafc',
 					secondary: '#cbd5e1',
-					muted: '#ebe6e7'
+					muted: '#94a3b8',
+					dim: '#64748b'
 				},
-				primary: '#38bdf8',
-				accent: '#f472b6',
-				proficient: '#34d399',
-				intermediate: '#60a5fa',
-				beginner: '#94a3b8'
+				primary: '#22c55e',
+				'accent-glow': 'rgba(34, 197, 94, 0.4)',
+				'accent-soft': 'rgba(34, 197, 94, 0.1)',
 			},
 			fontFamily: {
-				sans: ['Inter', 'system-ui', 'sans-serif'],
+				sans: ['Space Grotesk', 'system-ui', 'sans-serif'],
+				heading: ['Archivo', 'system-ui', 'sans-serif'],
 				mono: ['Share Tech Mono', 'monospace']
+			},
+			boxShadow: {
+				'accent-glow': '0 0 24px rgba(34, 197, 94, 0.4)',
+				'accent-glow-sm': '0 0 12px rgba(34, 197, 94, 0.3)',
 			}
 		}
 	},

@@ -1,314 +1,776 @@
 ---
 interface Props {
-	title: string;
-	description?: string;
-	showHero?: boolean;
+    title: string;
+    description?: string;
+    showHero?: boolean;
 }
 
-const { title, description = 'Security research blog - CTF writeups and bug bounty findings', showHero = false } = Astro.props;
+const {
+    title,
+    description = "Security research blog - CTF writeups and bug bounty findings",
+    showHero = false,
+} = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<meta name="description" content={description} />
-	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-	<meta name="generator" content={Astro.generator} />
-	<title>{title} | Tin Lučić - Blog</title>
-	<link rel="preconnect" href="https://fonts.googleapis.com" />
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-	<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content={description} />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="generator" content={Astro.generator} />
+        <title>{title} | Tin Lučić - Blog</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
 
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-EWDHWHP1BC"></script>
-	<script>
-		window.dataLayer = window.dataLayer || [];
-		window.gtag = function gtag(){window.dataLayer.push(arguments);};
-		gtag('js', new Date());
-		gtag('config', 'G-EWDHWHP1BC');
-	</script>
-</head>
-<body class="min-h-screen bg-background font-sans">
-	<header class="fixed top-0 left-0 right-0 xl:top-4 xl:left-0 xl:right-0 z-50">
-		<nav id="navbar" class="xl:max-w-6xl xl:mx-auto px-4 py-3 flex items-center justify-between bg-surface/80 border-b border-border/30 xl:rounded-2xl transition-all duration-300">
-			<a href="/" class="text-xl font-bold text-primary hover:text-accent transition-colors cursor-pointer">
-				TinL
-			</a>
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-EWDHWHP1BC"
+        ></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            window.gtag = function gtag() {
+                window.dataLayer.push(arguments);
+            };
+            gtag("js", new Date());
+            gtag("config", "G-EWDHWHP1BC");
+        </script>
+    </head>
+    <body class="min-h-screen bg-background font-sans">
+	<div class="bg-grid" aria-hidden="true"></div>
+		{showHero && <canvas id="matrix-canvas" aria-hidden="true"></canvas>}
 
-			<button id="mobile-menu-btn" class="xl:hidden text-text-muted hover:text-primary transition-colors" aria-label="Toggle menu">
-			<svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-			</svg>
-			<svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-			</svg>
-		</button>
+        <nav
+            id="navbar"
+            class="nav fixed top-0 left-0 right-0 z-50 transition-all duration-200"
+            role="navigation"
+            aria-label="Main navigation"
+        >
+            <div
+                class="max-w-6xl mx-auto px-6 nav-container flex items-center justify-between h-[72px]"
+            >
+                <a
+                    href="/"
+                    class="flex items-center gap-2 font-heading font-bold text-lg tracking-wider text-text-primary"
+                    aria-label="Home"
+                >
+                    <svg
+                        width="28"
+                        height="28"
+                        viewBox="0 0 28 28"
+                        fill="none"
+                        aria-hidden="true"
+                    >
+                        <rect
+                            x="2"
+                            y="2"
+                            width="24"
+                            height="24"
+                            rx="4"
+                            stroke="#22c55e"
+                            stroke-width="2"></rect>
+                        <path
+                            d="M8 14l3 3 7-7"
+                            stroke="#22c55e"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"></path>
+                    </svg>
+                    <span class="text-primary">TinL</span>
+                </a>
 
-			<div id="nav-links" class="hidden xl:flex items-center gap-6 px-4">
-				<div class="relative group py-1">
-					<a href="/" class="nav-link relative z-10">Home</a>
-					<span class="absolute bottom-0 left-0 w-full h-px bg-primary origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100"></span>
-				</div>
-				<div class="relative group py-1">
-					<a href="/ctf" class="nav-link relative z-10">CTF</a>
-					<span class="absolute bottom-0 left-0 w-full h-px bg-primary origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100"></span>
-				</div>
-				<div class="relative group py-1">
-					<a href="/bugbounty" class="nav-link relative z-10">Bug Bounty</a>
-					<span class="absolute bottom-0 left-0 w-full h-px bg-primary origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100"></span>
-				</div>
-				<div class="relative group py-1">
-					<a href="/projects" class="nav-link relative z-10">Projects</a>
-					<span class="absolute bottom-0 left-0 w-full h-px bg-primary origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100"></span>
-				</div>
-				<div class="relative group py-1">
-					<a href="https://tinl-portfolio.netlify.app" target="_blank" rel="noopener noreferrer" class="nav-link relative z-10">Portfolio</a>
-					<span class="absolute bottom-0 left-0 w-full h-px bg-primary origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100"></span>
-				</div>
-			</div>
-		</nav>
+                <ul
+                    class="nav-menu hidden xl:flex items-center gap-1 list-none"
+                >
+                    <li><a href="/" class="nav-link">Home</a></li>
+                    <li><a href="/ctf" class="nav-link">CTF</a></li>
+                    <li>
+                        <a href="/bugbounty" class="nav-link">Bug Bounty</a>
+                    </li>
+                    <li><a href="/projects" class="nav-link">Projects</a></li>
+                    <li>
+                        <a
+                            href="https://tinl-portfolio.netlify.app"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="nav-link">Portfolio</a
+                        >
+                    </li>
+                </ul>
 
-		<div id="mobile-menu" class="xl:hidden fixed right-0 top-0 bottom-0 w-64 bg-background/40 backdrop-blur-xl z-50 transform translate-x-full transition-transform duration-300 ease-out">
-			<button id="mobile-menu-close" type="button" class="absolute top-4 right-4 text-text-muted hover:text-primary transition-colors" aria-label="Close menu">
-				<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-				</svg>
-			</button>
+                <button
+                    id="hamburger"
+                    class="hamburger xl:hidden"
+                    aria-label="Toggle navigation menu"
+                    aria-expanded="false"
+                >
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+            </div>
+        </nav>
 
-			<div class="flex flex-col items-center pt-16 gap-2">
-				<a href="/" class="nav-link-mobile">Home</a>
-				<a href="/ctf" class="nav-link-mobile">CTF</a>
-				<a href="/bugbounty" class="nav-link-mobile">Bug Bounty</a>
-				<a href="/projects" class="nav-link-mobile">Projects</a>
-				<a href="https://tinl-portfolio.netlify.app" target="_blank" rel="noopener noreferrer" class="nav-link-mobile">
-					Portfolio
-				</a>
-			</div>
-		</div>
+        <div
+            id="mobile-menu"
+            class="fixed right-0 top-0 bottom-0 w-64 bg-[rgba(2,6,23,0.98)] backdrop-blur-xl border-l border-border z-[1001] transform translate-x-full transition-all duration-200 xl:hidden"
+        >
+            <div class="flex flex-col items-center justify-center h-full gap-3">
+                <a href="/" class="nav-link-mobile">Home</a>
+                <a href="/ctf" class="nav-link-mobile">CTF</a>
+                <a href="/bugbounty" class="nav-link-mobile">Bug Bounty</a>
+                <a href="/projects" class="nav-link-mobile">Projects</a>
+                <a
+                    href="https://tinl-portfolio.netlify.app"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="nav-link-mobile">Portfolio</a
+                >
+            </div>
+        </div>
 
-		<div id="mobile-backdrop" class="hidden fixed inset-0 bg-background/80 backdrop-blur-sm z-40 xl:hidden opacity-0 transition-opacity duration-300"></div>
-	</header>
+        {
+            showHero && (
+                <section
+                    id="hero"
+                    class="hero min-h-screen flex flex-col items-center justify-center relative overflow-hidden pt-[72px] pb-20"
+                >
+                    <div class="hero-content relative z-10 text-center max-w-[700px] mx-auto px-6 pb-20">
+                        <div class="hero-glow" aria-hidden="true" />
 
-	{showHero && (
-		<section class="pt-32 pb-16 px-6">
-			<div class="max-w-5xl mx-auto">
-				<div class="relative">
-					<div class="absolute -top-20 -left-20 w-72 h-72 bg-accent/10 rounded-full blur-3xl animate-float"></div>
-					<div class="absolute -bottom-20 -right-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-float" style="animation-delay: -3s;"></div>
+                        <div class="terminal-badge" aria-hidden="true">
+                            <svg
+                                width="12"
+                                height="12"
+                                viewBox="0 0 12 12"
+                                fill="#22c55e"
+                            >
+                                <circle cx="6" cy="6" r="6" />
+                            </svg>
+                            <span class="terminal-status">● ACTIVE</span>
+                        </div>
 
-					<div class="relative z-10">
-						<h1 class="font-mono text-5xl md:text-6xl font-bold mb-4 opacity-0 animate-fade-in-up">
-							<span class="text-text-primary">Welcome to</span>
-							<span class="gradient-text">the Blog</span>
-						</h1>
-						<p class="text-xl text-text-secondary max-w-2xl mb-8 opacity-0 animate-fade-in-up stagger-1">
-							Here I post CTF writeups, bug bounty findings,
-							security research and personal projects.
-						</p>
-						<div class="flex flex-wrap gap-4 opacity-0 animate-fade-in-up stagger-2">
-							<a href="/ctf" class="px-6 py-3 bg-primary/10 border border-primary/30 rounded-lg text-primary hover:bg-primary/20 hover:border-primary/50 transition-all duration-300 hover:scale-105">
-								CTF Writeups
-							</a>
-							<a href="/bugbounty" class="px-6 py-3 bg-accent/10 border border-accent/30 rounded-lg text-accent hover:bg-accent/20 hover:border-accent/50 transition-all duration-300 hover:scale-105">
-								Bug Bounty
-							</a>
-							<a href="/projects" class="px-6 py-3 bg-surface border border-border rounded-lg text-text-secondary hover:text-text-primary hover:border-primary/30 transition-all duration-300 hover:scale-105">
-								Projects
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-	)}
+                        <p class="text-sm md:text-base text-text-muted uppercase tracking-[3px] mb-2">
+                            Welcome to
+                        </p>
+                        <h1 class="font-heading text-4xl md:text-6xl lg:text-7xl font-bold mb-4 leading-tight">
+                            <span
+                                class="typewriter"
+                                data-text="The Blog"
+                                id="typewriter"
+                            />
+                        </h1>
+                        <p
+                            class="text-lg md:text-xl text-primary font-heading mb-6 min-h-[33px]"
+                            id="role-rotate"
+                        />
+                        <p class="text-sm md:text-base text-text-muted max-w-[560px] mx-auto mb-10 leading-relaxed">
+                            Web application security researcher and bug bounty
+                            hunter with experience in identifying critical
+                            vulnerabilities in web applications.
+                        </p>
 
-	<main class={`${showHero ? '' : 'pt-24'} max-w-6xl w-full mx-auto px-4 md:px-6 py-8`}>
-		<slot />
-	</main>
+                        <div class="flex gap-4 justify-center flex-wrap">
+                            <a href="/ctf" class="btn btn-primary">
+                                View Work
+                                <svg
+                                    viewBox="0 0 16 16"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <path d="M3 8h10M9 4l4 4-4 4" />
+                                </svg>
+                            </a>
+                            <a
+                                href="mailto:tin.lucic172@gmail.com"
+                                class="btn btn-ghost"
+                            >
+                                <svg
+                                    viewBox="0 0 16 16"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    aria-hidden="true"
+                                >
+                                    <path d="M4 4h8M4 8h6M2 12V5a3 3 0 013-3h6a3 3 0 013 3v7" />
+                                    <polyline points="4 12 2 12 2 14h8v-2z" />
+                                </svg>
+                                Get In Touch
+                            </a>
+                        </div>
+                    </div>
 
-	<footer class="border-t border-border/50 mt-16">
-		<div class="max-w-6xl mx-auto px-6 py-8">
-			<div class="flex flex-col md:flex-row items-center justify-between gap-6">
-				<div class="text-center md:text-left">
-					<p class="text-text-secondary text-sm mb-1">© 2026 Tin Lučić. All rights reserved.</p>
-					<p class="text-text-muted text-xs">Bug bounty hunter & Security researcher</p>
-				</div>
-				<div class="flex items-center gap-4">
-					<a href="mailto:tin.lucic172@gmail.com" class="social-icon" aria-label="Email">
-						<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-					</a>
-					<a href="https://github.com/d0ughb0yy" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="GitHub">
-						<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-					</a>
-					<a href="https://linkedin.com/in/tin-lu%C4%8Di%C4%87-367953266/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn">
-						<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-					</a>
-					<a href="https://tinl-portfolio.netlify.app" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Portfolio">
-						<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
-					</a>
-				</div>
-			</div>
-		</div>
-</footer>
+                    <a
+                        href="#content"
+                        class="scroll-indicator absolute bottom-12 left-1/2 -translate-x-1/2 block cursor-pointer"
+                        aria-label="Scroll to content"
+                    >
+                        <div class="w-6 h-6 border-r-2 border-b-2 border-text-dim rotate-45 animate-[scrollBounce_2s_ease-in-out_infinite]" />
+                    </a>
+                </section>
+            )
+        }
 
-<button
-  id="back-to-top"
-  class="fixed bottom-6 right-6 z-40 w-12 h-12 bg-primary/10 border border-primary/40 rounded-full flex items-center justify-center text-primary hover:text-primary hover:border-primary/70 hover:bg-primary/20 hover:shadow-[0_0_20px_rgba(56,189,248,0.4)] transition-all duration-300 opacity-0 invisible transform translate-y-4"
-  aria-label="Back to top"
->
-  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
-  </svg>
-</button>
+        <main
+            id="content"
+            class={`${showHero ? "" : "pt-24"} max-w-6xl w-full mx-auto px-4 md:px-6 py-8`}
+        >
+            <slot />
+        </main>
 
-<dialog
-  id="global-image-modal"
-  class="backdrop:bg-black/90 p-0 border-0 bg-transparent"
->
-  <img
-    id="global-modal-image"
-    src=""
-    alt=""
-    class="max-w-[90vw] max-h-[85vh] object-contain rounded-lg"
-  />
-  <button
-    id="global-modal-close"
-    class="absolute top-1 right-1 z-10 w-8 h-8 bg-surface/80 rounded-full flex items-center justify-center text-primary hover:text-primary hover:bg-surface transition-colors"
-    aria-label="Close modal"
-  >
-    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6l12 12M18 6l-12 12" />
-    </svg>
-  </button>
-</dialog>
+        <footer class="footer border-t border-border mt-16">
+            <div
+                class="max-w-6xl mx-auto px-6 py-8 footer-inner flex items-center justify-between flex-wrap gap-4"
+            >
+                <div class="flex items-center gap-4">
+                    <a
+                        href="/"
+                        class="flex items-center gap-2 font-heading font-bold text-lg tracking-wider text-text-primary"
+                    >
+                        <svg
+                            width="24"
+                            height="24"
+                            viewBox="0 0 28 28"
+                            fill="none"
+                            aria-hidden="true"
+                        >
+                            <rect
+                                x="2"
+                                y="2"
+                                width="24"
+                                height="24"
+                                rx="4"
+                                stroke="#22c55e"
+                                stroke-width="2"></rect>
+                            <path
+                                d="M8 14l3 3 7-7"
+                                stroke="#22c55e"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"></path>
+                        </svg>
+                        <span class="text-primary">TinL</span>
+                    </a>
+                    <p class="text-xs md:text-sm text-text-dim">
+                        &copy; <span id="year"></span> Tin Lučić. All rights reserved.
+                    </p>
+                </div>
+                <nav
+                    class="flex gap-6 flex-wrap"
+                    aria-label="Footer navigation"
+                >
+                    <a
+                        href="/"
+                        class="text-xs md:text-sm text-text-muted hover:text-primary transition-all duration-200"
+                        >Home</a
+                    >
+                    <a
+                        href="/ctf"
+                        class="text-xs md:text-sm text-text-muted hover:text-primary transition-all duration-200"
+                        >CTF</a
+                    >
+                    <a
+                        href="/bugbounty"
+                        class="text-xs md:text-sm text-text-muted hover:text-primary transition-all duration-200"
+                        >Bug Bounty</a
+                    >
+                    <a
+                        href="/projects"
+                        class="text-xs md:text-sm text-text-muted hover:text-primary transition-all duration-200"
+                        >Projects</a
+                    >
+                    <a
+                        href="https://tinl-portfolio.netlify.app"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-xs md:text-sm text-text-muted hover:text-primary transition-all duration-200"
+                        >Portfolio</a
+                    >
+                </nav>
+            </div>
+        </footer>
 
-<script>
-  const backToTopBtn = document.getElementById('back-to-top');
-  
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 400) {
-      backToTopBtn?.classList.remove('opacity-0', 'invisible', 'translate-y-4');
-      backToTopBtn?.classList.add('opacity-100', 'visible', 'translate-y-0');
-    } else {
-      backToTopBtn?.classList.remove('opacity-100', 'visible', 'translate-y-0');
-      backToTopBtn?.classList.add('opacity-0', 'invisible', 'translate-y-4');
-    }
-  });
-  
-  backToTopBtn?.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    setTimeout(() => backToTopBtn?.blur(), 100);
-  });
+        <button
+            id="back-to-top"
+            class="fixed bottom-6 right-6 z-40 w-12 h-12 bg-[rgba(34,197,94,0.1)] border border-[rgba(34,197,94,0.4)] rounded-full flex items-center justify-center text-primary hover:bg-[rgba(34,197,94,0.2)] hover:border-[rgba(34,197,94,0.7)] hover:shadow-[0_0_20px_rgba(34,197,94,0.4)] transition-all duration-300 opacity-0 invisible translate-y-4"
+            aria-label="Back to top"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-5 h-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 15l7-7 7 7"></path>
+            </svg>
+        </button>
 
-  const menuBtn = document.getElementById('mobile-menu-btn');
-  const mobileMenu = document.getElementById('mobile-menu');
-  const menuIcon = document.getElementById('menu-icon');
-  const closeIcon = document.getElementById('close-icon');
-  const backdrop = document.getElementById('mobile-backdrop');
-  const navbar = document.getElementById('navbar');
+        <dialog
+            id="global-image-modal"
+            class="backdrop:bg-black/90 p-0 border-0 bg-transparent"
+        >
+            <img
+                id="global-modal-image"
+                src=""
+                alt=""
+                class="max-w-[90vw] max-h-[85vh] object-contain rounded-lg"
+            />
+            <button
+                id="global-modal-close"
+                class="absolute top-1 right-1 z-10 w-8 h-8 bg-surface/80 rounded-full flex items-center justify-center text-primary hover:text-primary hover:bg-surface transition-colors"
+                aria-label="Close modal"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-4 h-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M6 6l12 12M18 6l-12 12"></path>
+                </svg>
+            </button>
+        </dialog>
 
-  const toggleMenu = () => {
-    const isOpen = mobileMenu?.classList.contains('translate-x-full');
+        <style is:global>
+            @import "../styles/global.css";
 
-    if (isOpen) {
-      mobileMenu?.classList.remove('translate-x-full');
-      mobileMenu?.classList.add('translate-x-0');
-      backdrop?.classList.remove('hidden');
-      setTimeout(() => backdrop?.classList.add('opacity-100'), 10);
-      menuIcon?.classList.add('hidden');
-      closeIcon?.classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
-    } else {
-      closeMenu();
-    }
-  };
+		.nav {
+			background: transparent;
+			backdrop-filter: blur(12px);
+			-webkit-backdrop-filter: blur(12px);
+			transition: background 300ms ease, box-shadow 300ms ease;
+			box-shadow: none;
+		}
 
-  const closeMenu = () => {
-    mobileMenu?.classList.remove('translate-x-0');
-    mobileMenu?.classList.add('translate-x-full');
-    backdrop?.classList.remove('opacity-100');
-    setTimeout(() => backdrop?.classList.add('hidden'), 300);
-    menuIcon?.classList.remove('hidden');
-    closeIcon?.classList.add('hidden');
-    document.body.style.overflow = '';
-  };
+		.nav.scrolled {
+			background: rgba(2, 6, 23, 0.85);
+			box-shadow: inset 0 -1px 0 #334155;
+		}
 
-  menuBtn?.addEventListener('click', toggleMenu);
-  backdrop?.addEventListener('click', closeMenu);
-  document.getElementById('mobile-menu-close')?.addEventListener('click', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    closeMenu();
-  });
+            .nav-link {
+                padding: 8px 16px;
+                font-size: 14px;
+                font-weight: 500;
+                color: #94a3b8;
+                border-radius: 4px;
+                transition: all 200ms ease;
+                position: relative;
+                text-decoration: none;
+            }
 
-  document.querySelectorAll('#mobile-menu a').forEach(link => {
-    link.addEventListener('click', closeMenu);
-  });
+            .nav-link:hover,
+            .nav-link.active {
+                color: #22c55e;
+            }
 
-		window.addEventListener('scroll', () => {
-			const currentScroll = window.scrollY;
-			if (currentScroll > 50) {
-				navbar?.classList.add('bg-surface/90');
-				navbar?.classList.remove('bg-surface/80');
-			} else {
-				navbar?.classList.remove('bg-surface/90');
-				navbar?.classList.add('bg-surface/80');
-			}
-		});
-	</script>
-</body>
+            .nav-link.active::after {
+                content: "";
+                position: absolute;
+                bottom: 2px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 20px;
+                height: 2px;
+                background: #22c55e;
+                box-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
+            }
+
+            .nav-link-mobile {
+                padding: 12px 24px;
+                font-size: 18px;
+                font-weight: 500;
+                color: #94a3b8;
+                text-decoration: none;
+                transition: all 200ms ease;
+                width: 100%;
+                text-align: center;
+            }
+
+            .nav-link-mobile:hover {
+                color: #22c55e;
+            }
+
+            .hamburger {
+                display: none;
+                flex-direction: column;
+                gap: 5px;
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 4px;
+            }
+
+            .hamburger-line {
+                width: 24px;
+                height: 2px;
+                background: #f8fafc;
+                transition: all 200ms ease;
+                border-radius: 2px;
+            }
+
+            .hamburger.active .hamburger-line:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+
+            .hamburger.active .hamburger-line:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active .hamburger-line:nth-child(3) {
+                transform: rotate(-45deg) translate(5px, -5px);
+            }
+
+            body.menu-open {
+                overflow: hidden;
+            }
+
+            .social-icon {
+                color: #94a3b8;
+                transition: all 300ms ease;
+            }
+
+            .social-icon:hover {
+                color: #22c55e;
+                transform: scale(1.1);
+            }
+
+            dialog::backdrop {
+                background: rgba(0, 0, 0, 0.9);
+            }
+
+            dialog[open] {
+                animation: fadeIn 0.15s ease-out;
+            }
+
+            #global-image-modal[open] #global-modal-close {
+                position: fixed !important;
+                top: 1rem !important;
+                right: 1rem !important;
+            }
+
+            #matrix-canvas {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 0;
+                opacity: 0.15;
+            }
+
+            .hero-content {
+                position: relative;
+                z-index: 1;
+            }
+
+            .cursor {
+                animation: blink 0.8s step-end infinite;
+                color: #22c55e;
+                font-weight: 300;
+            }
+
+            @media (max-width: 768px) {
+                .hamburger {
+                    display: flex;
+                    z-index: 1001;
+                }
+
+                .nav-link-mobile:active {
+                    transform: scale(0.98);
+                }
+
+                .footer-inner {
+                    flex-direction: column;
+                    text-align: center;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .hero-actions {
+                    flex-direction: column;
+                    align-items: center;
+                }
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                *,
+                *::before,
+                *::after {
+                    animation-duration: 0.01ms !important;
+                    animation-iteration-count: 1 !important;
+                    transition-duration: 0.01ms !important;
+                    scroll-behavior: auto !important;
+                }
+            }
+        </style>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const nav = document.getElementById("navbar");
+                const hamburger = document.getElementById("hamburger");
+                const mobileMenu = document.getElementById("mobile-menu");
+                const navLinks = document.querySelectorAll(".nav-link");
+                const sections = document.querySelectorAll("section[id]");
+                const matrixCanvas = document.getElementById("matrix-canvas");
+
+                function updateActiveSection() {
+                    const scrollY = window.scrollY;
+                    const offset = (nav?.offsetHeight || 72) + 100;
+
+                    sections.forEach((section, index) => {
+                        const sectionTop = section.offsetTop - offset;
+                        const sectionHeight = section.offsetHeight;
+                        const sectionId = section.getAttribute("id");
+                        const isLastSection = index === sections.length - 1;
+                        const atBottom =
+                            scrollY + window.innerHeight >=
+                            document.body.scrollHeight - 50;
+
+                        navLinks.forEach((link) => {
+                            link.classList.remove("active");
+                            if (isLastSection && atBottom) {
+                                if (
+                                    link.getAttribute("href") ===
+                                    `#${sectionId}`
+                                ) {
+                                    link.classList.add("active");
+                                }
+                            } else if (
+                                scrollY >= sectionTop &&
+                                scrollY < sectionTop + sectionHeight
+                            ) {
+                                if (
+                                    link.getAttribute("href") ===
+                                    `#${sectionId}`
+                                ) {
+                                    link.classList.add("active");
+                                }
+                            }
+                        });
+                    });
+                }
+
+                function handleNavScroll() {
+                    const scrollY = window.scrollY;
+                    if (scrollY > 100) {
+                        nav?.classList.add("scrolled");
+                    } else {
+                        nav?.classList.remove("scrolled");
+                    }
+                    updateActiveSection();
+                }
+
+                function initMatrix() {
+                    if (!matrixCanvas) return;
+                    const ctx = matrixCanvas.getContext("2d");
+                    matrixCanvas.width = window.innerWidth;
+                    matrixCanvas.height = window.innerHeight;
+
+                    const chars =
+                        "01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン";
+                    const columns = Math.floor(matrixCanvas.width / 20);
+                    const drops = Array(columns).fill(1);
+
+                    function draw() {
+                        ctx.fillStyle = "rgba(2, 6, 23, 0.05)";
+                        ctx.fillRect(
+                            0,
+                            0,
+                            matrixCanvas.width,
+                            matrixCanvas.height,
+                        );
+                        ctx.fillStyle = "#22C55E";
+                        ctx.font = "14px monospace";
+
+                        for (let i = 0; i < drops.length; i++) {
+                            const char =
+                                chars[Math.floor(Math.random() * chars.length)];
+                            ctx.fillText(char, i * 20, drops[i] * 20);
+                            if (
+                                drops[i] * 20 > matrixCanvas.height &&
+                                Math.random() > 0.975
+                            ) {
+                                drops[i] = 0;
+                            }
+                            drops[i]++;
+                        }
+                    }
+
+                    const matrixInterval = setInterval(draw, 50);
+
+                    window.addEventListener("resize", () => {
+                        matrixCanvas.width = window.innerWidth;
+                        matrixCanvas.height = window.innerHeight;
+                    });
+
+                    const mediaQuery = window.matchMedia(
+                        "(prefers-reduced-motion: reduce)",
+                    );
+                    if (mediaQuery.matches) {
+                        clearInterval(matrixInterval);
+                        ctx.clearRect(
+                            0,
+                            0,
+                            matrixCanvas.width,
+                            matrixCanvas.height,
+                        );
+                    }
+                }
+
+                function toggleMobileMenu() {
+                    hamburger?.classList.toggle("active");
+                    mobileMenu?.classList.toggle("translate-x-full");
+                    mobileMenu?.classList.toggle("translate-x-0");
+                    document.body.classList.toggle("menu-open");
+                }
+
+                function closeMobileMenu() {
+                    hamburger?.classList.remove("active");
+                    mobileMenu?.classList.remove("translate-x-0");
+                    mobileMenu?.classList.add("translate-x-full");
+                    document.body.classList.remove("menu-open");
+                }
+
+                function typeWriter(element, text, speed = 50) {
+                    let i = 0;
+                    element.textContent = "";
+                    function type() {
+                        if (i < text.length) {
+                            element.textContent += text.charAt(i);
+                            i++;
+                            setTimeout(type, speed);
+                        }
+                    }
+                    type();
+                }
+
+                window.addEventListener("scroll", handleNavScroll, {
+                    passive: true,
+                });
+                handleNavScroll();
+                if (matrixCanvas) {
+                    initMatrix();
+                }
+
+                if (hamburger) {
+                    hamburger.addEventListener("click", toggleMobileMenu);
+                }
+
+                document
+                    .querySelectorAll(".nav-link-mobile")
+                    .forEach((link) => {
+                        link.addEventListener("click", closeMobileMenu);
+                    });
+
+                const backToTopBtn = document.getElementById("back-to-top");
+                window.addEventListener("scroll", () => {
+                    if (window.scrollY > 400) {
+                        backToTopBtn?.classList.remove(
+                            "opacity-0",
+                            "invisible",
+                            "translate-y-4",
+                        );
+                        backToTopBtn?.classList.add(
+                            "opacity-100",
+                            "visible",
+                            "translate-y-0",
+                        );
+                    } else {
+                        backToTopBtn?.classList.remove(
+                            "opacity-100",
+                            "visible",
+                            "translate-y-0",
+                        );
+                        backToTopBtn?.classList.add(
+                            "opacity-0",
+                            "invisible",
+                            "translate-y-4",
+                        );
+                    }
+                });
+
+                backToTopBtn?.addEventListener("click", () => {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                    setTimeout(() => backToTopBtn?.blur(), 100);
+                });
+
+                const typewriterElement = document.querySelector(".typewriter");
+                if (typewriterElement) {
+                    const text = typewriterElement.getAttribute("data-text");
+                    setTimeout(
+                        () => typeWriter(typewriterElement, text, 60),
+                        500,
+                    );
+                }
+
+                const yearEl = document.getElementById("year");
+                if (yearEl)
+                    yearEl.textContent = new Date().getFullYear().toString();
+
+                const roles = [
+                    "CTF Reports",
+                    "Bug Bounty Research",
+                    "Personal Projects",
+                ];
+                const roleElement = document.getElementById("role-rotate");
+                let roleIndex = 0;
+                let charIndex = 0;
+                let isDeleting = false;
+                let roleText = "";
+
+                function typeRole() {
+                    if (!roleElement) return;
+                    const currentRole = roles[roleIndex];
+
+                    if (!isDeleting) {
+                        roleText = currentRole.substring(0, charIndex + 1);
+                        charIndex++;
+                        if (charIndex > currentRole.length) {
+                            isDeleting = true;
+                            setTimeout(typeRole, 2000);
+                            return;
+                        }
+                    } else {
+                        roleText = currentRole.substring(0, charIndex - 1);
+                        charIndex--;
+                        if (charIndex < 0) {
+                            isDeleting = false;
+                            roleIndex = (roleIndex + 1) % roles.length;
+                            setTimeout(typeRole, 500);
+                            return;
+                        }
+                    }
+
+                    roleElement.innerHTML =
+                        roleText +
+                        '<span class="cursor" aria-hidden="true">|</span>';
+                    const speed = isDeleting ? 30 : 80;
+                    setTimeout(typeRole, speed);
+                }
+
+                setTimeout(typeRole, 1500);
+            });
+        </script>
+    </body>
 </html>
-
-<style is:global>
-	@import '../styles/global.css';
-
-	.animate-gradient {
-		background-size: 200% 200%;
-		animation: gradient-shift 20s ease infinite;
-	}
-
-	@keyframes gradient-shift {
-		0%, 100% { background-position: 0% 50%; }
-		50% { background-position: 100% 50%; }
-	}
-
-.nav-link {
-  color: #ebe6e7;
-  @apply hover:text-primary cursor-pointer transition-colors;
-}
-
-.nav-link-mobile {
-  color: #ebe6e7;
-  @apply hover:text-primary transition-colors py-3 cursor-pointer text-lg w-full text-center;
-  transition: transform 0.15s ease-out, color 0.2s ease;
-}
-
-.nav-link-mobile:active {
-  transform: scale(0.98);
-}
-
-.social-icon {
-  @apply text-text-muted hover:text-primary transition-all duration-300 hover:scale-110;
-}
-
-dialog::backdrop {
-  background: rgba(0, 0, 0, 0.9);
-}
-
-dialog[open] {
-  animation: fadeIn 0.15s ease-out;
-}
-
-#global-image-modal[open] #global-modal-close {
-  position: fixed !important;
-  top: 1rem !important;
-  right: 1rem !important;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-</style>
