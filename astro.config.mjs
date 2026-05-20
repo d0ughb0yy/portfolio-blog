@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 
 export default defineConfig({
-  site: 'https://security-blog.netlify.app',
+  site: 'https://tinl-blog.netlify.app',
   integrations: [
     mdx(),
     sitemap(),

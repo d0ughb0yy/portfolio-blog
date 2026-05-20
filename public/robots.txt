@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://security-blog.netlify.app/sitemap-index.xml
+Sitemap: https://tinl-blog.netlify.app/sitemap-index.xml
