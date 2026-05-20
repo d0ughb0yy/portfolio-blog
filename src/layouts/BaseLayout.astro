@@ -15,6 +15,10 @@ const {
 <!doctype html>
 <html lang="en">
     <head>
+        <meta
+            name="google-site-verification"
+            content="V7ey-CBS45MB1F1wnw0Mca_V55A3HIY2MVsvFtrgeYk"
+        />
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content={description} />
@@ -42,8 +46,8 @@ const {
         </script>
     </head>
     <body class="min-h-screen bg-background font-sans">
-	<div class="bg-grid" aria-hidden="true"></div>
-		{showHero && <canvas id="matrix-canvas" aria-hidden="true"></canvas>}
+        <div class="bg-grid" aria-hidden="true"></div>
+        {showHero && <canvas id="matrix-canvas" aria-hidden="true" />}
 
         <nav
             id="navbar"
@@ -354,18 +358,20 @@ const {
         <style is:global>
             @import "../styles/global.css";
 
-		.nav {
-			background: transparent;
-			backdrop-filter: blur(12px);
-			-webkit-backdrop-filter: blur(12px);
-			transition: background 300ms ease, box-shadow 300ms ease;
-			box-shadow: none;
-		}
+            .nav {
+                background: transparent;
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                transition:
+                    background 300ms ease,
+                    box-shadow 300ms ease;
+                box-shadow: none;
+            }
 
-		.nav.scrolled {
-			background: rgba(2, 6, 23, 0.85);
-			box-shadow: inset 0 -1px 0 #334155;
-		}
+            .nav.scrolled {
+                background: rgba(2, 6, 23, 0.85);
+                box-shadow: inset 0 -1px 0 #334155;
+            }
 
             .nav-link {
                 padding: 8px 16px;
