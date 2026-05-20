@@ -22,7 +22,11 @@ const {
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content={description} />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg" />
+        <link rel="icon" type="image/png" sizes="48x48" href="/favicons/favicon-48x48.png" />
+        <link rel="icon" type="image/png" sizes="96x96" href="/favicons/favicon-96x96.png" />
+        <link rel="icon" type="image/png" sizes="144x144" href="/favicons/favicon-144x144.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/favicons/favicon-192x192.png" />
         <meta name="generator" content={Astro.generator} />
         <title>{title} | Tin Lučić - Blog</title>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -533,12 +537,12 @@ const {
 
         <script>
             document.addEventListener("DOMContentLoaded", () => {
-                const nav = document.getElementById("navbar");
-                const hamburger = document.getElementById("hamburger");
-                const mobileMenu = document.getElementById("mobile-menu");
-                const navLinks = document.querySelectorAll(".nav-link");
-                const sections = document.querySelectorAll("section[id]");
-                const matrixCanvas = document.getElementById("matrix-canvas");
+                const nav = document.getElementById("navbar") as HTMLElement | null;
+                const hamburger = document.getElementById("hamburger") as HTMLElement | null;
+                const mobileMenu = document.getElementById("mobile-menu") as HTMLElement | null;
+                const navLinks = document.querySelectorAll(".nav-link") as NodeListOf<HTMLElement>;
+                const sections = document.querySelectorAll("section[id]") as NodeListOf<HTMLElement>;
+                const matrixCanvas = document.getElementById("matrix-canvas") as HTMLCanvasElement | null;
 
                 function updateActiveSection() {
                     const scrollY = window.scrollY;
@@ -589,13 +593,14 @@ const {
 
                 function initMatrix() {
                     if (!matrixCanvas) return;
-                    const ctx = matrixCanvas.getContext("2d");
-                    matrixCanvas.width = window.innerWidth;
-                    matrixCanvas.height = window.innerHeight;
+                    const canvas = matrixCanvas;
+                    const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
 
                     const chars =
                         "01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン";
-                    const columns = Math.floor(matrixCanvas.width / 20);
+                    const columns = Math.floor(canvas.width / 20);
                     const drops = Array(columns).fill(1);
 
                     function draw() {
@@ -603,8 +608,8 @@ const {
                         ctx.fillRect(
                             0,
                             0,
-                            matrixCanvas.width,
-                            matrixCanvas.height,
+                            canvas.width,
+                            canvas.height,
                         );
                         ctx.fillStyle = "#22C55E";
                         ctx.font = "14px monospace";
@@ -614,7 +619,7 @@ const {
                                 chars[Math.floor(Math.random() * chars.length)];
                             ctx.fillText(char, i * 20, drops[i] * 20);
                             if (
-                                drops[i] * 20 > matrixCanvas.height &&
+                                drops[i] * 20 > canvas.height &&
                                 Math.random() > 0.975
                             ) {
                                 drops[i] = 0;
@@ -626,8 +631,8 @@ const {
                     const matrixInterval = setInterval(draw, 50);
 
                     window.addEventListener("resize", () => {
-                        matrixCanvas.width = window.innerWidth;
-                        matrixCanvas.height = window.innerHeight;
+                        canvas.width = window.innerWidth;
+                        canvas.height = window.innerHeight;
                     });
 
                     const mediaQuery = window.matchMedia(
@@ -638,8 +643,8 @@ const {
                         ctx.clearRect(
                             0,
                             0,
-                            matrixCanvas.width,
-                            matrixCanvas.height,
+                            canvas.width,
+                            canvas.height,
                         );
                     }
                 }
@@ -658,7 +663,7 @@ const {
                     document.body.classList.remove("menu-open");
                 }
 
-                function typeWriter(element, text, speed = 50) {
+                function typeWriter(element: HTMLElement, text: string, speed = 50) {
                     let i = 0;
                     element.textContent = "";
                     function type() {
@@ -689,7 +694,7 @@ const {
                         link.addEventListener("click", closeMobileMenu);
                     });
 
-                const backToTopBtn = document.getElementById("back-to-top");
+                const backToTopBtn = document.getElementById("back-to-top") as HTMLElement | null;
                 window.addEventListener("scroll", () => {
                     if (window.scrollY > 400) {
                         backToTopBtn?.classList.remove(
@@ -721,16 +726,16 @@ const {
                     setTimeout(() => backToTopBtn?.blur(), 100);
                 });
 
-                const typewriterElement = document.querySelector(".typewriter");
+                const typewriterElement = document.querySelector(".typewriter") as HTMLElement | null;
                 if (typewriterElement) {
-                    const text = typewriterElement.getAttribute("data-text");
+                    const text = typewriterElement.getAttribute("data-text") || "";
                     setTimeout(
                         () => typeWriter(typewriterElement, text, 60),
                         500,
                     );
                 }
 
-                const yearEl = document.getElementById("year");
+                const yearEl = document.getElementById("year") as HTMLElement | null;
                 if (yearEl)
                     yearEl.textContent = new Date().getFullYear().toString();
 
@@ -739,7 +744,7 @@ const {
                     "Bug Bounty Research",
                     "Personal Projects",
                 ];
-                const roleElement = document.getElementById("role-rotate");
+                const roleElement = document.getElementById("role-rotate") as HTMLElement | null;
                 let roleIndex = 0;
                 let charIndex = 0;
                 let isDeleting = false;

@@ -29,7 +29,7 @@ const formattedDate = post.data.pubDate.toLocaleDateString('en-US', {
 ---
 
 <BaseLayout title={post.data.title} description={post.data.description}>
-<article class="bg-surface border border-border rounded-xl p-8">
+<article class="bg-surface/80 backdrop-blur-sm border border-[#475569] rounded-xl p-8">
 	<header class="mb-8">
       <div class="flex items-center gap-2 mb-4">
         <PlatformBadge platform={post.data.ctfPlatform} />
